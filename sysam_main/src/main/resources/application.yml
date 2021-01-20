@@ -1,0 +1,29 @@
+server:
+  port: 8089
+  servlet:
+    context-path: /
+# 数据源：
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cas?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: elitel!@3$
+#mybatis-plus配置
+mybatis-plus:
+  configuration:
+    #开启驼峰
+    map-underscore-to-camel-case: true
+    #自动映射model(pojo)
+    auto-mapping-behavior: full
+    #开启日志打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #xml扫描
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    # 逻辑删除配置
+    db-config:
+      # 删除前
+      logic-not-delete-value: 1
+      # 删除后
+      logic-delete-value: 0
