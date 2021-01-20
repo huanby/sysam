@@ -29,48 +29,35 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName(value = "sys_user",resultMap = "userMap")
-//@ApiModel(value="SysUser对象", description="")
-@ApiModel(value = "User对象", description = "")
-public class User extends Model<User> {
+@TableName(value = "sys_role", resultMap = "roleMap")
+@ApiModel(value = "Role对象", description = "")
+public class Role extends Model<Role> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键id")
+    @ApiModelProperty(value = "角色主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "用户名")
-    @TableField("username")
-    private String username;
+    @ApiModelProperty(value = "角色标识")
+    @TableField("rolesign")
+    private String rolesign;
 
-    @ApiModelProperty(value = "密码")
-    @TableField("password")
-    private String password;
+    @ApiModelProperty(value = "角色名称")
+    @TableField("rolename")
+    private String rolename;
 
-    @ApiModelProperty(value = "姓名")
-    @TableField("name")
-    private String name;
-
-    @ApiModelProperty(value = "性别  0-女 1-男")
-    @TableField("sex")
-    private Integer sex;
-
-    @ApiModelProperty(value = "年龄")
-    @TableField("age")
-    private Integer age;
-
-    @ApiModelProperty(value = "电话")
-    @TableField("tel")
-    private String tel;
-
-    @ApiModelProperty(value = "邮箱")
-    @TableField("mail")
-    private String mail;
+    @ApiModelProperty(value = "备注")
+    @TableField("remark")
+    private String remark;
 
     @ApiModelProperty(value = "启用状态  0-未启用 1已启用")
     @TableField("enable")
     private Integer enable;
+
+    @ApiModelProperty(value = "创建者")
+    @TableField("creator")
+    private Integer creator;
 
     @ApiModelProperty(value = "创建时间")
     @TableField("createtime")
@@ -80,7 +67,7 @@ public class User extends Model<User> {
     @TableField("updatetime")
     private Date updatetime;
 
-    @ApiModelProperty(value = "是否删除")
+    @ApiModelProperty(value = "是否删除  0-未删除 1已删除")
     @TableField("isdel")
     private Integer isdel;
 
@@ -88,21 +75,12 @@ public class User extends Model<User> {
     @TableField("describes")
     private String describes;
 
-
     /**
-     * 用户角色关联信息
+     * 角色菜单关联信息
      */
-    @ApiModelProperty(value = "用户角色关联信息")
-//    @TableField(exist = false)
-    private List<UserRole> userRoles;
+    @ApiModelProperty(value = "角色菜单关联信息")
+    private List<RoleMenu> roleMenus;
 
-    public List<UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
 
     @Override
     protected Serializable pkVal() {

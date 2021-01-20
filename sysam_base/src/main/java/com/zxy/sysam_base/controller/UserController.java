@@ -38,11 +38,13 @@ public class UserController {
     @RequestMapping(value = "/selelctInfo", method = RequestMethod.POST)
     public User selelctInfo(Integer id) {
         User user = userService.getById(id);
+        System.out.println(user.getUserRoles());
+        System.out.println(user);
         return user;
     }
 
     @ApiOperation("根据姓名查询用户的接口")
-    @RequestMapping(value = "/selelctInfos",method = RequestMethod.POST)
+    @RequestMapping(value = "/selelctInfos", method = RequestMethod.POST)
     public Map<String, Object> selelctInfos(String username) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         Map<String, Object> map = userService.getMap(wrapper.eq("username", username));
@@ -50,30 +52,31 @@ public class UserController {
     }
 
     @ApiOperation("更新用户")
-    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
     public boolean updateInfo() {
         //修改值
         User user = new User();
-        user.setExpired(1);
+        user.setEnable(1);
         //修改条件
         UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
         userUpdateWrapper.eq("username", "test");
         boolean result = userService.update(user, userUpdateWrapper);
         return result;
     }
+
     @ApiOperation("新增用户")
-    @RequestMapping(value = "/saveInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
     public boolean saveInfo(@RequestBody User user) {
         boolean result = userService.save(user);
         return result;
     }
 
     @ApiOperation("新增or更新用户")
-    @RequestMapping(value = "/saveOrUpdate",method = RequestMethod.POST)
+    @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
     public boolean saveOrUpdate() {
         //修改值
         User user = new User();
-        user.setExpired(2);
+        user.setEnable(2);
         //修改条件
         UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
         userUpdateWrapper.eq("username", "test");

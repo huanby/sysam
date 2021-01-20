@@ -40,11 +40,14 @@ public class GeneratorCodeConfig {
     public static void main(String[] args) {
         String DRIVER = "com.mysql.cj.jdbc.Driver";
 //        String DATA_URL = "jdbc:mysql://127.0.0.1:3306/cas?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true";
-        String DATA_URL = "jdbc:mysql://localhost:3306/cas?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8";
+        String DATA_URL = "jdbc:mysql://localhost:3306/sysam?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8";
         String USERNAME = "root";
-        String PASSWORD = "elitel!@3$";
+        String PASSWORD = "123456";
         String AUTHOR = "jibl";
+        //MOUDLENAME 模块名称
         String MOUDLENAME = "sysam_base";
+        //自定义模块名称
+//        String MOUDLENAME = (scanner("模块名"));
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName(DRIVER);
@@ -84,7 +87,8 @@ public class GeneratorCodeConfig {
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         /** 如果需要生成getset 注释掉下面配置 **/
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setTablePrefix("");//绑定表名前缀
+//        strategy.setTablePrefix("");    //绑定表名前缀
+        strategy.setTablePrefix("sys" + "_");
         strategy.setEntityLombokModel(true);
         strategy.setControllerMappingHyphenStyle(true);// 驼峰转连字符
         strategy.setEntityTableFieldAnnotationEnable(true);// 是否生成实体时，生成字段注解

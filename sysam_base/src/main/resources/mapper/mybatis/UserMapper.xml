@@ -3,20 +3,28 @@
 <mapper namespace="com.zxy.sysam_base.dao.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zxy.sysam_base.entity.User">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="sex" property="sex" />
-        <result column="phone" property="phone" />
-        <result column="expired" property="expired" />
-        <result column="disabled" property="disabled" />
-        <result column="createdate" property="createdate" />
+    <resultMap id="userMap" type="com.zxy.sysam_base.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="tel" property="tel"/>
+        <result column="mail" property="mail"/>
+        <result column="enable" property="enable"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+        <result column="isdel" property="isdel"/>
+        <result column="describes" property="describes"/>
+        <collection property="userRoles" ofType="com.zxy.sysam_base.entity.UserRole"
+                    select="com.zxy.sysam_base.dao.UserRoleMapper.getByUserId" column="id"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, sex, phone, expired, disabled, createdate
+        id, username, password, name, sex, age, tel, mail, enable, createtime, updatetime, isdel, describes
     </sql>
+
 
 </mapper>

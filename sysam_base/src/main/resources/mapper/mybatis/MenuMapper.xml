@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.sysam_base.dao.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zxy.sysam_base.entity.Menu">
+        <id column="id" property="id" />
+        <result column="menuname" property="menuname" />
+        <result column="url" property="url" />
+        <result column="remark" property="remark" />
+        <result column="pid" property="pid" />
+        <result column="authstr" property="authstr" />
+        <result column="type" property="type" />
+        <result column="icon" property="icon" />
+        <result column="orderNum" property="orderNum" />
+        <result column="enable" property="enable" />
+        <result column="isdel" property="isdel" />
+        <result column="creator" property="creator" />
+        <result column="updateBy" property="updateBy" />
+        <result column="createtime" property="createtime" />
+        <result column="updatetime" property="updatetime" />
+        <result column="describes" property="describes" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, menuname, url, remark, pid, authstr, type, icon, orderNum, enable, isdel, creator, updateBy, createtime, updatetime, describes
+    </sql>
+
+    <!--通过菜单id查询菜单信息-->
+    <select id="getMenuById" resultType="com.zxy.sysam_base.entity.Menu">
+        SELECT * FROM sys_menu where id = #{id};
+    </select>
+
+</mapper>

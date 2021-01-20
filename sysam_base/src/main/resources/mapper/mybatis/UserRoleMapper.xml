@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.sysam_base.dao.UserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="userRoleMap" type="com.zxy.sysam_base.entity.UserRole">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="roleId" property="roleId"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+        <result column="isdel" property="isdel"/>
+        <result column="describes" property="describes"/>
+        <association property="role" select="com.zxy.sysam_base.dao.RoleMapper.getRoleById"
+                     column="roleId"></association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userId, roleId, createtime, updatetime, isdel, describes
+    </sql>
+
+    <!--通过用户id查询用户角色关联信息-->
+    <select id="getByUserId" resultMap="userRoleMap">
+        SELECT * FROM sys_user_role where userId = #{id};
+    </select>
+
+</mapper>
