@@ -37,6 +37,19 @@
             <artifactId>sysam_base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--定时任务模块-->
+        <dependency>
+            <groupId>com.zxy</groupId>
+            <artifactId>sysam_task</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--公共配置模块-->
+        <dependency>
+            <groupId>com.zxy</groupId>
+            <artifactId>sysam_common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
