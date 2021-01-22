@@ -12,8 +12,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -36,7 +39,7 @@ public class LoginController {
     @GetMapping("/login")
     @ResponseBody
     public String login(User user) {
-        if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
+        if (ObjectUtils.isEmpty(user.getUsername()) || ObjectUtils.isEmpty(user.getPassword())) {
             return "请输入用户名和密码！";
         }
         //用户认证信息
@@ -63,7 +66,12 @@ public class LoginController {
         return "login success";
     }
 
-    @RequiresRoles("/admin/user/getUserList")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        return "logout";
+    }
+
+/*    @RequiresRoles("/admin/user/getUserList")
     @GetMapping("/admin")
     public String admin() {
         return "admin success!";
@@ -79,5 +87,5 @@ public class LoginController {
     @GetMapping("/add")
     public String add() {
         return "add success!";
-    }
+    }*/
 }

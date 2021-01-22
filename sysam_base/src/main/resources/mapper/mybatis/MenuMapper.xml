@@ -9,7 +9,7 @@
         <result column="url" property="url" />
         <result column="remark" property="remark" />
         <result column="pid" property="pid" />
-        <result column="authstr" property="authstr" />
+        <result column="perms" property="perms" />
         <result column="type" property="type" />
         <result column="icon" property="icon" />
         <result column="orderNum" property="orderNum" />
@@ -24,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, menuname, url, remark, pid, authstr, type, icon, orderNum, enable, isdel, creator, updateBy, createtime, updatetime, describes
+        id, menuname, url, remark, pid, perms, type, icon, orderNum, enable, isdel, creator, updateBy, createtime, updatetime, describes
     </sql>
 
     <!--通过菜单id查询菜单信息-->

@@ -50,9 +50,9 @@ public class Menu extends Model<Menu> {
     @TableField("pid")
     private Integer pid;
 
-    @ApiModelProperty(value = "授权")
-    @TableField("authstr")
-    private String authstr;
+    @ApiModelProperty(value = "授权（多个用逗号分隔，如：user:list,user:add）")
+    @TableField("perms")
+    private String perms;
 
     @ApiModelProperty(value = "类型")
     @TableField("type")
