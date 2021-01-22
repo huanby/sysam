@@ -23,6 +23,8 @@
     <modules>
         <module>sysam_main</module>
         <module>sysam_base</module>
+        <module>sysam_task</module>
+        <module>sysam_common</module>
     </modules>
 
     <dependencies>
