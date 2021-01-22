@@ -2,6 +2,7 @@ package com.zxy.sysam_base.controller;
 
 
 import com.zxy.sysam_base.entity.User;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author hby
  * @since 2021-01-20
  */
+@Api(value = "", tags = {"用户登录管理"})
 @Controller
 public class LoginController {
 
@@ -36,6 +38,7 @@ public class LoginController {
      * @return
      */
     @ApiOperation("用户登录")
+
     @GetMapping("/login")
     @ResponseBody
     public String login(User user) {

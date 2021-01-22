@@ -42,6 +42,7 @@ public class ShiroConfig {
     /**
      * 权限管理，配置主要是Realm的管理认证
      * SecurityManager执行授权，通过ModularRealmAuthorizer执行授权
+     *
      * @return
      */
     @Bean
@@ -62,6 +63,11 @@ public class ShiroConfig {
         map.put("/logout", "logout");
         //对所有用户认证
         map.put("/**", "authc");
+        //不验证路径
+        map.put("/swagger-ui.html", "anon");
+        map.put("/v2/api-docs", "anon");
+        map.put("/webjars/**", "anon");
+        map.put("/swagger-resources/**", "anon");
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         //首页
