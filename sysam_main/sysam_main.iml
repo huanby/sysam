@@ -64,8 +64,8 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.7.0" level="project" />
     <orderEntry type="module" module-name="sysam_base" />
-    <orderEntry type="module" module-name="sysam_task" />
-    <orderEntry type="module" module-name="sysam_common" />
+    <orderEntry type="library" name="Maven: com.zxy:sysam_task:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.zxy:sysam_common:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.4.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.4" level="project" />
