@@ -1,7 +1,6 @@
 package com.zxy.sysam_base.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zxy.sysam_base.entity.Menu;
 import com.zxy.sysam_base.entity.User;
 import com.zxy.sysam_base.service.ILoginService;
 import com.zxy.sysam_base.service.UserService;

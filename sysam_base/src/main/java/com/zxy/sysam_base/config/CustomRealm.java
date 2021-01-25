@@ -15,7 +15,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 
 /**
@@ -63,7 +62,7 @@ public class CustomRealm extends AuthorizingRealm {
                 simpleAuthorizationInfo.addStringPermission(permissions.getPermissionsName());
             }*/
             for (RoleMenu permissions : role.getRoleMenus()) {
-                simpleAuthorizationInfo.addStringPermission(permissions.getMenu().getUrl());
+                simpleAuthorizationInfo.addStringPermission(permissions.getMenu().getPerms());
             }
         }
         return simpleAuthorizationInfo;
