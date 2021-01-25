@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan({"com.zxy.*"})
-@MapperScan("com.zxy.sysam_base.dao")
+@MapperScan("com.zxy.*.dao")
 public class SysamMainApplication {
 
     public static void main(String[] args) {
