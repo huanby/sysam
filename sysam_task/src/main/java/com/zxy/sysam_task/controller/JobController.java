@@ -40,7 +40,7 @@ public class JobController {
         job.setCronExpression("0 0/1 * * * ?");
         job.setCreateTime(new Date());
         job.setStatus(0);
-        job.setRemark("备注");
+        job.setRemark("备注.");
         //任务名称
         String name = request.getParameter("name");
         //任务组名称
