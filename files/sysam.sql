@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 22/01/2021 09:07:13
+ Date: 26/01/2021 20:26:46
 */
 
 SET NAMES utf8mb4;
@@ -51,6 +51,24 @@ CREATE TABLE `sys_group`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for sys_job
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_job`;
+CREATE TABLE `sys_job`  (
+  `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
+  `BEAN_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
+  `JOBGROUP` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务组名称',
+  `METHOD_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
+  `PARAMS` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
+  `CRON_EXPRESSION` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'cron表达式',
+  `STATUS` int(2) NULL DEFAULT NULL COMMENT '任务状态  0：正常  1：暂停',
+  `REMARK` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`JOB_ID`) USING BTREE,
+  INDEX `sys_job_create_time`(`CREATE_TIME`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -72,16 +90,16 @@ CREATE TABLE `sys_menu`  (
   `updatetime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `describes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '用户信息管理', 'system/user/', NULL, 0, NULL, 1, NULL, 1, 1, 0, NULL, NULL, '2020-01-09 08:45:25', '2020-06-16 15:16:07', NULL);
-INSERT INTO `sys_menu` VALUES (2, '基础信息管理', '/admin/user/userList', NULL, 1, 'userList', 2, NULL, 1, 1, 0, NULL, NULL, '2020-01-10 12:18:00', '2020-11-06 16:51:16', NULL);
-INSERT INTO `sys_menu` VALUES (3, '权限信息管理', '/admin/role/roleList', NULL, 1, 'roleList', 2, NULL, 2, 1, 0, NULL, NULL, '2020-01-10 12:18:14', '2020-11-10 15:21:15', NULL);
-INSERT INTO `sys_menu` VALUES (4, '浏览', '/admin/user/getUserList', NULL, 2, 'userList', 4, 'glyphicon glyphicon-search', 1, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2020-11-06 16:53:52', NULL);
-INSERT INTO `sys_menu` VALUES (5, '添加', '/admin/user/userAdd', NULL, 2, 'userAdd', 3, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2020-11-05 19:47:13', NULL);
+INSERT INTO `sys_menu` VALUES (1, '系统管理', 'system/user/', NULL, 0, NULL, 1, NULL, 1, 1, 0, NULL, NULL, '2020-01-09 08:45:25', '2021-01-26 20:05:20', NULL);
+INSERT INTO `sys_menu` VALUES (2, '用户管理', '/admin/user/userList', NULL, 1, 'sys:user:userList', 2, NULL, 1, 1, 0, NULL, NULL, '2020-01-10 12:18:00', '2021-01-26 20:05:25', NULL);
+INSERT INTO `sys_menu` VALUES (3, '权限管理', '/admin/role/roleList', NULL, 1, 'sys:role:roleList', 2, NULL, 2, 1, 0, NULL, NULL, '2020-01-10 12:18:14', '2021-01-26 20:05:28', NULL);
+INSERT INTO `sys_menu` VALUES (4, '浏览', '/admin/user/getUserList', NULL, 2, 'sys:user:userList', 4, 'glyphicon glyphicon-search', 1, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:04', NULL);
+INSERT INTO `sys_menu` VALUES (5, '添加', '/admin/user/userAdd', NULL, 2, 'sys:user:userAdd', 3, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:14', NULL);
 INSERT INTO `sys_menu` VALUES (6, '查看', '/admin/user/userInfo', NULL, 2, 'userInfo', 3, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-06 16:37:27', NULL);
 INSERT INTO `sys_menu` VALUES (7, '修改', '/admin/user/userEdit', NULL, 2, 'userUpdate', 3, 'glyphicon glyphicon-search', 4, 1, 0, NULL, NULL, '2020-11-10 15:19:12', '2020-11-10 20:45:37', NULL);
 INSERT INTO `sys_menu` VALUES (8, '删除', '/admin/user/userDel', NULL, 2, 'userDel', 3, 'glyphicon glyphicon-search', 5, 1, 0, NULL, NULL, '2020-11-10 15:19:38', '2020-11-10 15:19:52', NULL);
@@ -90,6 +108,9 @@ INSERT INTO `sys_menu` VALUES (10, '添加', '/admin/role/roleAdd', NULL, 3, 'ro
 INSERT INTO `sys_menu` VALUES (11, '查看', '/admin/role/roleInfo', NULL, 3, 'roleInfo', 3, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-25 20:36:05', NULL);
 INSERT INTO `sys_menu` VALUES (12, '修改', '/admin/role/roleEdit', NULL, 3, 'roleUpdate', 3, 'glyphicon glyphicon-search', 4, 1, 0, NULL, NULL, '2020-11-10 15:19:12', '2020-11-25 20:56:20', NULL);
 INSERT INTO `sys_menu` VALUES (13, '删除', '/admin/role/roleDel', NULL, 3, 'roleDel', 3, 'glyphicon glyphicon-search', 5, 1, 0, NULL, NULL, '2020-11-10 15:19:38', '2020-11-25 20:36:05', NULL);
+INSERT INTO `sys_menu` VALUES (14, '任务调度', '/sys/task', NULL, 0, 'sys:task:task', 1, NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:05', '2021-01-26 20:09:30', NULL);
+INSERT INTO `sys_menu` VALUES (15, '定时任务', '/sys/task/job', NULL, 14, 'sys:task:', 2, NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:37', '2021-01-26 20:11:42', NULL);
+INSERT INTO `sys_menu` VALUES (16, '调度任务', '/sys/task/job2', NULL, 14, 'sys:task:', 2, NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:50', '2021-01-26 20:13:38', NULL);
 
 -- ----------------------------
 -- Table structure for sys_operation
@@ -199,7 +220,7 @@ CREATE TABLE `sys_role_menu`  (
   `isdel` int(11) NULL DEFAULT 0 COMMENT '是否删除',
   `describes` int(255) NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -224,6 +245,9 @@ INSERT INTO `sys_role_menu` VALUES (28, 2, 7, '2020-12-05 17:15:33', '2020-12-05
 INSERT INTO `sys_role_menu` VALUES (29, 2, 8, '2020-12-05 17:15:33', '2020-12-05 17:15:33', 0, NULL);
 INSERT INTO `sys_role_menu` VALUES (30, 2, 4, '2020-12-05 17:15:33', '2020-12-05 17:15:33', 0, NULL);
 INSERT INTO `sys_role_menu` VALUES (31, 2, 1, '2020-12-05 17:15:33', '2020-12-05 17:15:33', 0, NULL);
+INSERT INTO `sys_role_menu` VALUES (32, 1, 14, '2021-01-26 20:13:48', '2021-01-26 20:13:48', 0, NULL);
+INSERT INTO `sys_role_menu` VALUES (33, 1, 15, '2021-01-26 20:13:49', '2021-01-26 20:13:51', 0, NULL);
+INSERT INTO `sys_role_menu` VALUES (34, 1, 16, '2021-01-26 20:13:50', '2021-01-26 20:13:52', 0, NULL);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -260,10 +284,10 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$l.2kTmKD7/wU6HdKba/LDeCob1Hc7RpREkSCBXb/CkkBMod1LyeyS', '管理员', 1, 20, '15645678956', '123@qq.com', 1, '2020-01-09 08:38:40', '2020-11-24 21:25:32', 0, NULL);
+INSERT INTO `sys_user` VALUES (1, 'admin', '123456', '管理员', 1, 20, '15645678956', '123@qq.com', 1, '2020-01-09 08:38:40', '2021-01-23 11:20:36', 0, NULL);
 INSERT INTO `sys_user` VALUES (2, 'admin3', '$2a$10$l.2kTmKD7/wU6HdKba/LDeCob1Hc7RpREkSCBXb/CkkBMod1LyeyS', '管理员3', 1, NULL, NULL, NULL, 1, '2020-02-08 11:23:02', '2020-02-08 11:23:14', 0, NULL);
-INSERT INTO `sys_user` VALUES (3, 'user1', '$2a$10$vt1OEdTGsLEhSQCxQgw4D.KHyRPxqDRgbskqnidMUwkDdAaYr7XE6', 'user1', 1, 20, '12345678911', '', 1, '2020-12-04 21:43:10', '2020-12-04 21:43:10', 0, NULL);
-INSERT INTO `sys_user` VALUES (4, 'user2', '$2a$10$OSCspadQH1m350qYxxNjCeZHVG0aI5HWmJr0gG6Xij9wCjCmy0Ekm', 'user2', 1, 20, '12345678911', '123@qq.com', 1, '2020-12-06 14:57:11', '2020-12-06 14:57:11', 0, NULL);
+INSERT INTO `sys_user` VALUES (3, 'user1', '123456', 'user1', 1, 20, '12345678911', '', 1, '2020-12-04 21:43:10', '2021-01-23 11:20:38', 0, NULL);
+INSERT INTO `sys_user` VALUES (4, 'user2', '123456', 'user2', 1, 20, '12345678911', '123@qq.com', 1, '2020-12-06 14:57:11', '2021-01-23 11:20:39', 0, NULL);
 INSERT INTO `sys_user` VALUES (5, 'user3', '123456', 'user3', 1, 20, '12345678911', '123@qq.com', 1, '2020-12-06 15:30:00', '2021-01-20 20:51:05', 0, NULL);
 
 -- ----------------------------
