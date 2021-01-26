@@ -2,6 +2,8 @@ package com.zxy.sysam_base.service;
 
 import com.zxy.sysam_base.entity.User;
 
+import java.util.Map;
+
 
 /**
  * ILoginService.java
@@ -20,4 +22,9 @@ public interface ILoginService {
      */
     User getUserByName(String name);
 
+    /**
+     * 访问首页
+     * @return
+     */
+    Map<String, Object> index();
 }

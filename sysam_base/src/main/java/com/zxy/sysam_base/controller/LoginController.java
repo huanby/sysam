@@ -1,10 +1,12 @@
 package com.zxy.sysam_base.controller;
 
 
-import com.zxy.sysam_base.entity.Menu;
-import com.zxy.sysam_base.entity.User;
+import com.zxy.sysam_base.entity.*;
+import com.zxy.sysam_base.service.ILoginService;
 import com.zxy.sysam_base.service.MenuService;
+import com.zxy.sysam_common.utils.BuildTree;
 import com.zxy.sysam_common.utils.ResultUtil;
+import com.zxy.sysam_common.utils.Tree;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -21,7 +23,10 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * LoginController.java
@@ -41,6 +46,9 @@ public class LoginController {
 
     @Autowired
     private HttpSession httpSession;
+
+    @Autowired
+    private ILoginService iLoginService;
 
 
     /**
@@ -121,22 +129,16 @@ public class LoginController {
      *
      * @return
      */
-
 //    @ApiImplicitParam(name = "id", value = "ID", required = false, paramType = "query", dataType = "integer")
-//    @ApiOperation("首页")
-    @RequiresRoles("ROLE_ADMIN")
-    @RequiresPermissions("sys:user:userList")
+    @ApiOperation("访问首页")
+//    @RequiresRoles("ROLE_ADMIN")
+//    @RequiresPermissions("sys:user:userList")
     @PostMapping("/index")
     @ResponseBody
-    public String index() {
-//        List<Tree<Menu>> menus = menuService.listMenuTree(getUserId());
-        System.out.println("aa1");
-        return "index success!";
+    public Map<String, Object> index() {
+        Map<String, Object> map = new HashMap<>();
+        //获取访问首页展示的用户及菜单信息
+        map = iLoginService.index();
+        return map;
     }
-/*
-    @RequiresPermissions("add")
-    @GetMapping("/add")
-    public String add() {
-        return "add success!";
-    }*/
 }

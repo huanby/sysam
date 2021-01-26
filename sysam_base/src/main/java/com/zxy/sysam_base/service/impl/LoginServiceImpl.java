@@ -1,11 +1,17 @@
 package com.zxy.sysam_base.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zxy.sysam_base.entity.User;
+import com.zxy.sysam_base.entity.*;
 import com.zxy.sysam_base.service.ILoginService;
 import com.zxy.sysam_base.service.UserService;
+import com.zxy.sysam_common.utils.BuildTree;
+import com.zxy.sysam_common.utils.Tree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * LoginServiceImpl.java
@@ -19,6 +25,9 @@ public class LoginServiceImpl implements ILoginService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HttpSession httpSession;
 
     /**
      * 通过用户姓名获取用户信息
@@ -36,31 +45,43 @@ public class LoginServiceImpl implements ILoginService {
 
 
     /**
-     * 模拟数据库查询
+     * 访问首页
      *
-     * @param userName 用户名
-     * @return User
+     * @return
      */
-    /*private User getMapByName(String userName) {
-        Menu menu1 = new Menu();
-        Menu menu2 = new Menu();
-        Set<Permissions> permissionsSet = new HashSet<>();
-        permissionsSet.add(permissions1);
-        permissionsSet.add(permissions2);
-        Role role = new Role("1", "admin", permissionsSet);
-        Set<Role> roleSet = new HashSet<>();
-        roleSet.add(role);
-        User user = new User("1", "wsl", "123456", roleSet);
-        Map<String, User> map = new HashMap<>();
-        map.put(user.getUserName(), user);
-
-        Set<Permissions> permissionsSet1 = new HashSet<>();
-        permissionsSet1.add(permissions1);
-        Role role1 = new Role("2", "user", permissionsSet1);
-        Set<Role> roleSet1 = new HashSet<>();
-        roleSet1.add(role1);
-        User user1 = new User("2", "zhangsan", "123456", roleSet1);
-        map.put(user1.getUserName(), user1);
-        return map.get(userName);
-    }*/
+    @Override
+    public Map<String, Object> index() {
+        Map<String, Object> map = new HashMap<>();
+        User user = (User) httpSession.getAttribute("user");
+        List<Tree<Menu>> trees = new ArrayList<Tree<Menu>>();
+        //返回菜单列表的Tree结构
+        //可以修改成使用jdk8新特性转换
+        for (UserRole userRole : user.getUserRoles()) {
+            for (RoleMenu roleMenu : userRole.getRole().getRoleMenus()) {
+                Menu menu = roleMenu.getMenu();
+                Tree<Menu> tree = new Tree<Menu>();
+                //菜单id
+                tree.setId(menu.getId().toString());
+                //
+                tree.setParentId(menu.getPid().toString());
+                //菜单名称
+                tree.setText(menu.getMenuname());
+                //菜单属性
+                Map<String, Object> attributes = new HashMap<>(16);
+                //菜单URL
+                attributes.put("url", menu.getUrl());
+                //菜单icon
+                attributes.put("icon", menu.getIcon());
+                tree.setAttributes(attributes);
+                trees.add(tree);
+            }
+        }
+        //根据id去重复值
+        trees = trees.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Tree<Menu>::getId))), ArrayList::new));
+        // 默认顶级菜单为０，根据数据库实际情况调整
+        List<Tree<Menu>> menus = BuildTree.buildList(trees, "0");
+        map.put("user", user);
+        map.put("menus", menus);
+        return map;
+    }
 }

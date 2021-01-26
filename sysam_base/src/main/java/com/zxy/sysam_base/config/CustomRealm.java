@@ -16,6 +16,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
+import javax.servlet.http.HttpSession;
+
 
 /**
  * ShiroConfig.java
@@ -29,6 +31,10 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Autowired
     private ILoginService iLoginService;
+
+    @Autowired
+    private HttpSession session;
+
 
     /**
      * 授权
@@ -45,6 +51,7 @@ public class CustomRealm extends AuthorizingRealm {
         String name = (String) principalCollection.getPrimaryPrincipal();
         //查询用户名称
         User user = iLoginService.getUserByName(name);
+
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         for (UserRole userRole : user.getUserRoles()) {
@@ -85,6 +92,8 @@ public class CustomRealm extends AuthorizingRealm {
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
         User user = iLoginService.getUserByName(name);
+        session.setAttribute("user",user);
+        System.out.println(session);
         if (user == null) {
             //这里返回后会报出对应异常
             return null;
