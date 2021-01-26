@@ -1,6 +1,6 @@
 package com.zxy.sysam_task.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.util.Date;
@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 定时任务表
+ * 调度日志表
  * </p>
  *
  * @author jibl
@@ -24,23 +24,22 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_job")
-@ApiModel(value="Job对象", description="定时任务表")
-public class Job extends Model<Job> {
+@ApiModel(value="JobLog对象", description="调度日志表")
+public class JobLog extends Model<JobLog> {
 
     private static final long serialVersionUID=1L;
 
+    @ApiModelProperty(value = "任务日志id")
+    @TableId(value = "LOG_ID", type = IdType.AUTO)
+    private Long logId;
+
     @ApiModelProperty(value = "任务id")
-    @TableId(value = "JOB_ID", type = IdType.AUTO)
+    @TableField("JOB_ID")
     private Long jobId;
 
     @ApiModelProperty(value = "spring bean名称")
     @TableField("BEAN_NAME")
     private String beanName;
-
-    @ApiModelProperty(value = "任务组名称")
-    @TableField("JOBGROUP")
-    private String jobgroup;
 
     @ApiModelProperty(value = "方法名")
     @TableField("METHOD_NAME")
@@ -50,17 +49,17 @@ public class Job extends Model<Job> {
     @TableField("PARAMS")
     private String params;
 
-    @ApiModelProperty(value = "cron表达式")
-    @TableField("CRON_EXPRESSION")
-    private String cronExpression;
-
-    @ApiModelProperty(value = "任务状态  0：正常  1：暂停")
+    @ApiModelProperty(value = "任务状态    0：成功    1：失败")
     @TableField("STATUS")
-    private Integer status;
+    private String status;
 
-    @ApiModelProperty(value = "备注")
-    @TableField("REMARK")
-    private String remark;
+    @ApiModelProperty(value = "失败信息")
+    @TableField("ERROR")
+    private String error;
+
+    @ApiModelProperty(value = "耗时(单位：毫秒)")
+    @TableField("TIMES")
+    private BigDecimal times;
 
     @ApiModelProperty(value = "创建时间")
     @TableField("CREATE_TIME")
@@ -69,7 +68,7 @@ public class Job extends Model<Job> {
 
     @Override
     protected Serializable pkVal() {
-        return this.jobId;
+        return this.logId;
     }
 
 }

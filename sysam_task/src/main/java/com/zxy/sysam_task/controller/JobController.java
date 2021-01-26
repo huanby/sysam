@@ -2,9 +2,8 @@ package com.zxy.sysam_task.controller;
 
 
 import com.zxy.sysam_task.config.QuartzJobManager;
-import com.zxy.sysam_task.config.TestQuartz;
 import com.zxy.sysam_task.entity.Job;
-import com.zxy.sysam_task.utils.JobOperateEnum;
+import com.zxy.sysam_task.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +21,21 @@ import java.util.Map;
  * </p>
  *
  * @author jibl
- * @since 2021-01-25
+ * @since 2021-01-26
  */
 @RestController
 @RequestMapping("/job")
 public class JobController {
-
     @Autowired
     QuartzJobManager quartzJobManager;
 
+    @Autowired
+    JobService jobService;
+
     @GetMapping("/add")
     public void add(HttpServletRequest request, Job job) {
-        job.setGroup("test");
+
+        job.setJobgroup("test");
         job.setBeanName("TestQuartz");
         job.setMethodName("ddd");
         job.setParams("hello");
@@ -41,6 +43,8 @@ public class JobController {
         job.setCreateTime(new Date());
         job.setStatus(0);
         job.setRemark("备注.");
+        final boolean save = jobService.save(job);
+
         //任务名称
         String name = request.getParameter("name");
         //任务组名称
@@ -51,7 +55,7 @@ public class JobController {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "张三");
         map.put("sex", "0");
-        quartzJobManager.addJob(TestQuartz.class, name, groupName, cron, map);
+//        quartzJobManager.addJob(TestQuartz.class, name, groupName, cron, map);
     }
 
     @GetMapping("/del")
