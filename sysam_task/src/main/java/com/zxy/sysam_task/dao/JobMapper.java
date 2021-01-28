@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author jibl
- * @since 2021-01-26
+ * @since 2021-01-28
  */
 public interface JobMapper extends BaseMapper<Job> {
 

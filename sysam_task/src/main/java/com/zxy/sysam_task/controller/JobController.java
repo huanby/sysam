@@ -1,19 +1,14 @@
 package com.zxy.sysam_task.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zxy.sysam_task.config.QuartzJobManager;
 import com.zxy.sysam_task.entity.Job;
 import com.zxy.sysam_task.service.JobService;
+import com.zxy.sysam_task.utils.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>
@@ -21,11 +16,15 @@ import java.util.Map;
  * </p>
  *
  * @author jibl
- * @since 2021-01-26
+ * @since 2021-01-28
  */
 @RestController
 @RequestMapping("/job")
 public class JobController {
+
+    //默认任务组
+    private static String groupName = "DEFAULT";
+
     @Autowired
     QuartzJobManager quartzJobManager;
 
@@ -33,36 +32,33 @@ public class JobController {
     JobService jobService;
 
     @GetMapping("/add")
-    public void add(HttpServletRequest request, Job job) {
-
-        job.setJobgroup("test");
-        job.setBeanName("TestQuartz");
-        job.setMethodName("ddd");
-        job.setParams("hello");
-        job.setCronExpression("0 0/1 * * * ?");
-        job.setCreateTime(new Date());
-        job.setStatus(0);
-        job.setRemark("备注.");
-        final boolean save = jobService.save(job);
-
-        //任务名称
-        String name = request.getParameter("name");
-        //任务组名称
-        String groupName = "task";
-        //cron表达式
-        String cron = "0 0/1 * * * ?";
-        //需要给任务携带的参数
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "张三");
-        map.put("sex", "0");
-//        quartzJobManager.addJob(TestQuartz.class, name, groupName, cron, map);
+    public BaseResult add(Job job) {
+        return jobService.add(job);
     }
 
-    @GetMapping("/del")
-    public void del(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String groupName = "task";
-        quartzJobManager.deleteJob(name, groupName);
+
+    @GetMapping("/delete")
+    public BaseResult delete(Job job) {
+        return jobService.delete(job);
     }
+
+
+    @GetMapping("/list")
+    public BaseResult selectJobInfos(Job job) {
+        return jobService.selectJobInfos(job);
+    }
+
+    @GetMapping("/pauseJob")
+    public BaseResult pauseJob(Job  job) {
+        return  jobService.pauseJob(job);
+    }
+
+
+    @GetMapping("/resumeJob")
+    public BaseResult resumeJob(Job job) {
+        return  jobService.resumeJob(job);
+    }
+
+
 }
 

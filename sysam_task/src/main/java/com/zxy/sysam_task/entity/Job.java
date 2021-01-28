@@ -7,11 +7,14 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -19,7 +22,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author jibl
- * @since 2021-01-26
+ * @since 2021-01-28
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -37,10 +40,6 @@ public class Job extends Model<Job> {
     @ApiModelProperty(value = "spring bean名称")
     @TableField("BEAN_NAME")
     private String beanName;
-
-    @ApiModelProperty(value = "任务组名称")
-    @TableField("JOBGROUP")
-    private String jobgroup;
 
     @ApiModelProperty(value = "方法名")
     @TableField("METHOD_NAME")
@@ -64,6 +63,8 @@ public class Job extends Model<Job> {
 
     @ApiModelProperty(value = "创建时间")
     @TableField("CREATE_TIME")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 

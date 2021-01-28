@@ -22,6 +22,9 @@ import java.util.*;
 public class QuartzJobManager {
     private static final Logger logger = LoggerFactory.getLogger(QuartzJobManager.class);
 
+    //任务名称前缀
+    private static final String JOB_NAME_PREFIX = "TASK_";
+
     private static QuartzJobManager jobUtil;
 
     @Autowired
@@ -37,16 +40,24 @@ public class QuartzJobManager {
         return QuartzJobManager.jobUtil;
     }
 
+
+    /**
+     * 获取任务名称JobName
+     */
+    private static String getJobName(Long jobId) {
+        return JOB_NAME_PREFIX + jobId;
+    }
+
     /**
      * 创建job
      *
      * @param clazz          任务类
-     * @param jobName        任务名称
+     * @param jobId          任务ID
      * @param jobGroupName   任务所在组名称
      * @param cronExpression cron表达式
      */
-    public void addJob(Class clazz, String jobName, String jobGroupName, String cronExpression) {
-        addJob(clazz, jobName, jobGroupName, cronExpression, null);
+    public void addJob(Class clazz, Long jobId, String jobGroupName, String cronExpression) {
+        addJob(clazz, jobId, jobGroupName, cronExpression, null);
     }
 
 
@@ -54,21 +65,21 @@ public class QuartzJobManager {
      * 创建job，可传参
      *
      * @param clazz          任务类
-     * @param jobName        任务名称
+     * @param jobId          任务ID
      * @param jobGroupName   任务所在组名称
      * @param cronExpression cron表达式
      * @param argMap         map形式参数
      */
-    public void addJob(Class clazz, String jobName, String jobGroupName, String cronExpression, Map<String, Object> argMap) {
+    public void addJob(Class clazz, Long jobId, String jobGroupName, String cronExpression, Map<String, Object> argMap) {
         try {
             // 启动调度器
             scheduler.start();
             //构建job信息
-            JobDetail jobDetail = JobBuilder.newJob(((Job) clazz.newInstance()).getClass()).withIdentity(jobName, jobGroupName).build();
+            JobDetail jobDetail = JobBuilder.newJob(((Job) clazz.newInstance()).getClass()).withIdentity(getJobName(jobId), jobGroupName).build();
             //表达式调度构建器(即任务执行的时间)
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
             //按新的cronExpression表达式构建一个新的trigger
-            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobName, jobGroupName).withSchedule(scheduleBuilder).build();
+            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getJobName(jobId), jobGroupName).withSchedule(scheduleBuilder).build();
             //获得JobDataMap，写入数据
             if (argMap != null) {
                 trigger.getJobDataMap().putAll(argMap);
@@ -82,12 +93,12 @@ public class QuartzJobManager {
     /**
      * 暂停job
      *
-     * @param jobName      任务名称
+     * @param jobId      任务ID
      * @param jobGroupName 任务所在组名称
      */
-    public void pauseJob(String jobName, String jobGroupName) {
+    public void pauseJob(long jobId, String jobGroupName) {
         try {
-            scheduler.pauseJob(JobKey.jobKey(jobName, jobGroupName));
+            scheduler.pauseJob(JobKey.jobKey(getJobName(jobId), jobGroupName));
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -96,12 +107,12 @@ public class QuartzJobManager {
     /**
      * 恢复job
      *
-     * @param jobName      任务名称
+     * @param jobId      任务ID
      * @param jobGroupName 任务所在组名称
      */
-    public void resumeJob(String jobName, String jobGroupName) {
+    public void resumeJob(long jobId, String jobGroupName) {
         try {
-            scheduler.resumeJob(JobKey.jobKey(jobName, jobGroupName));
+            scheduler.resumeJob(JobKey.jobKey(getJobName(jobId), jobGroupName));
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -174,14 +185,14 @@ public class QuartzJobManager {
     /**
      * job 删除
      *
-     * @param jobName      任务名称
+     * @param jobId        任务名称
      * @param jobGroupName 任务所在组名称
      */
-    public void deleteJob(String jobName, String jobGroupName) {
+    public void deleteJob(long jobId, String jobGroupName) {
         try {
-            scheduler.pauseTrigger(TriggerKey.triggerKey(jobName, jobGroupName));
-            scheduler.unscheduleJob(TriggerKey.triggerKey(jobName, jobGroupName));
-            scheduler.deleteJob(JobKey.jobKey(jobName, jobGroupName));
+            scheduler.pauseTrigger(TriggerKey.triggerKey(getJobName(jobId), jobGroupName));
+            scheduler.unscheduleJob(TriggerKey.triggerKey(getJobName(jobId), jobGroupName));
+            scheduler.deleteJob(JobKey.jobKey(getJobName(jobId), jobGroupName));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,7 +6,6 @@
     <resultMap id="BaseResultMap" type="com.zxy.sysam_task.entity.Job">
         <id column="JOB_ID" property="jobId" />
         <result column="BEAN_NAME" property="beanName" />
-        <result column="JOBGROUP" property="jobgroup" />
         <result column="METHOD_NAME" property="methodName" />
         <result column="PARAMS" property="params" />
         <result column="CRON_EXPRESSION" property="cronExpression" />
@@ -17,7 +16,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        JOB_ID, BEAN_NAME, JOBGROUP, METHOD_NAME, PARAMS, CRON_EXPRESSION, STATUS, REMARK, CREATE_TIME
+        JOB_ID, BEAN_NAME, METHOD_NAME, PARAMS, CRON_EXPRESSION, STATUS, REMARK, CREATE_TIME
     </sql>
 
 </mapper>
