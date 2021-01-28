@@ -13,6 +13,9 @@ spring:
     #密码
     #password: elitel!@3$
     password: 123456
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 #mybatis-plus配置
 mybatis-plus:
   configuration:
@@ -31,3 +34,4 @@ mybatis-plus:
       logic-not-delete-value: 1
       # 删除后
       logic-delete-value: 0
+
