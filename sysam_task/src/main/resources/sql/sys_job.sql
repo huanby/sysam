@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 26/01/2021 15:53:21
+ Date: 28/01/2021 17:22:40
 */
 
 SET NAMES utf8mb4;
@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `sys_job`;
 CREATE TABLE `sys_job`  (
   `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
   `BEAN_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
-  `JOBGROUP` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务组名称',
   `METHOD_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
   `PARAMS` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
   `CRON_EXPRESSION` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'cron表达式',
@@ -33,6 +32,6 @@ CREATE TABLE `sys_job`  (
   `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`JOB_ID`) USING BTREE,
   INDEX `sys_job_create_time`(`CREATE_TIME`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
