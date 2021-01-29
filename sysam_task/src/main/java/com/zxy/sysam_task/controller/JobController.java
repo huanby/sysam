@@ -1,6 +1,8 @@
 package com.zxy.sysam_task.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zxy.sysam_task.config.QuartzJobManager;
 import com.zxy.sysam_task.entity.Job;
@@ -8,6 +10,8 @@ import com.zxy.sysam_task.service.JobService;
 import com.zxy.sysam_task.utils.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/job")
+@CrossOrigin
 public class JobController {
 
     //默认任务组
@@ -48,15 +53,20 @@ public class JobController {
         return jobService.selectJobInfos(job);
     }
 
-    @GetMapping("/pauseJob")
-    public BaseResult pauseJob(Job  job) {
-        return  jobService.pauseJob(job);
+
+    @PostMapping("/pauseJob")
+    public BaseResult pauseJob(@RequestBody String list) {
+        JSONObject json = JSONObject.parseObject(list);
+        List<Job> jobs = JSON.parseArray(json.getJSONArray("list").toJSONString(), Job.class);
+        return jobService.pauseJob(jobs);
     }
 
 
-    @GetMapping("/resumeJob")
-    public BaseResult resumeJob(Job job) {
-        return  jobService.resumeJob(job);
+    @PostMapping("/resumeJob")
+    public BaseResult resumeJob(@RequestBody String list)
+    { JSONObject json = JSONObject.parseObject(list);
+        List<Job> jobs = JSON.parseArray(json.getJSONArray("list").toJSONString(), Job.class);
+        return jobService.resumeJob(jobs);
     }
 
 

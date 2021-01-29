@@ -48,7 +48,8 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         map.put("methodName", job.getMethodName());
         map.put("params", job.getParams());
         try {
-            quartzJobManager.addJob(Class.forName(pageName + job.getBeanName()), job.getJobId(), groupName, job.getCronExpression(), map);
+//            quartzJobManager.addJob(Class.forName(pageName + job.getBeanName()), job.getJobId(), groupName, job.getCronExpression(), map);
+            quartzJobManager.addJob(job);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,19 +73,22 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     }
 
     @Override
-    public BaseResult pauseJob(Job job) {
-        job.setStatus((int)JobOperateEnum.PAUSE.getValue());
-        jobMapper.updateById(job);
-        quartzJobManager.pauseJob(job.getJobId(), groupName);
+    public BaseResult pauseJob(List<Job> jobs) {
+        for (Job job : jobs) {
+            job.setStatus((int) JobOperateEnum.PAUSE.getValue());
+            jobMapper.updateById(job);
+            quartzJobManager.pauseJob(job.getJobId(), groupName);
+        }
         return new BaseResult(1);
-
     }
 
     @Override
-    public BaseResult resumeJob(Job job) {
-        job.setStatus((int)JobOperateEnum.START.getValue());
-        jobMapper.updateById(job);
-        quartzJobManager.resumeJob(job.getJobId(), groupName);
+    public BaseResult resumeJob(List<Job> jobs) {
+        for (Job job : jobs) {
+            job.setStatus((int) JobOperateEnum.START.getValue());
+            jobMapper.updateById(job);
+            quartzJobManager.resumeJob(job.getJobId(), groupName);
+        }
         return new BaseResult(1);
 
     }

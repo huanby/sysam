@@ -15,18 +15,18 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class SpringUtil implements ApplicationContextAware {
+public class SpringContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if(SpringUtil.applicationContext == null) {
-            SpringUtil.applicationContext = applicationContext;
+        if(SpringContextUtil.applicationContext == null) {
+            SpringContextUtil.applicationContext = applicationContext;
         }
         System.out.println("---------------------------------------------------------------------");
 
-        System.out.println("========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext="+SpringUtil.applicationContext+"========");
+        System.out.println("========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext="+ SpringContextUtil.applicationContext+"========");
 
         System.out.println("---------------------------------------------------------------------");
     }

@@ -1,5 +1,6 @@
 package com.zxy.sysam_task.config;
 
+import com.zxy.sysam_task.task.ScheduleJob;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
@@ -24,6 +25,9 @@ public class QuartzJobManager {
 
     //任务名称前缀
     private static final String JOB_NAME_PREFIX = "TASK_";
+
+    //默认任务组
+    private static String groupName = "DEFAULT";
 
     private static QuartzJobManager jobUtil;
 
@@ -56,9 +60,9 @@ public class QuartzJobManager {
      * @param jobGroupName   任务所在组名称
      * @param cronExpression cron表达式
      */
-    public void addJob(Class clazz, Long jobId, String jobGroupName, String cronExpression) {
-        addJob(clazz, jobId, jobGroupName, cronExpression, null);
-    }
+//    public void addJob(Class clazz, Long jobId, String jobGroupName, String cronExpression) {
+//        addJob(clazz, jobId, jobGroupName, cronExpression, null);
+//    }
 
 
     /**
@@ -70,16 +74,44 @@ public class QuartzJobManager {
      * @param cronExpression cron表达式
      * @param argMap         map形式参数
      */
-    public void addJob(Class clazz, Long jobId, String jobGroupName, String cronExpression, Map<String, Object> argMap) {
+//    public void addJob(Class clazz, Long jobId, String jobGroupName, String cronExpression, Map<String, Object> argMap) {
+//        try {
+//            // 启动调度器
+//            scheduler.start();
+//            //构建job信息
+//            JobDetail jobDetail = JobBuilder.newJob(((Job) clazz.newInstance()).getClass()).withIdentity(getJobName(jobId), jobGroupName).build();
+//            //表达式调度构建器(即任务执行的时间)
+//            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+//            //按新的cronExpression表达式构建一个新的trigger
+//            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getJobName(jobId), jobGroupName).withSchedule(scheduleBuilder).build();
+//            //获得JobDataMap，写入数据
+//            if (argMap != null) {
+//                trigger.getJobDataMap().putAll(argMap);
+//            }
+//            scheduler.scheduleJob(jobDetail, trigger);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    /**
+     * 新增定时任务
+     * @param job
+     */
+    public void addJob(com.zxy.sysam_task.entity.Job job) {
+        long jobId = job.getJobId();
+        String cronExpression = job.getCronExpression();
+        Map<String, Object> argMap = new HashMap<>();
+        argMap.put("job", job);
         try {
             // 启动调度器
             scheduler.start();
             //构建job信息
-            JobDetail jobDetail = JobBuilder.newJob(((Job) clazz.newInstance()).getClass()).withIdentity(getJobName(jobId), jobGroupName).build();
+            JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(getJobName(jobId), groupName).build();
             //表达式调度构建器(即任务执行的时间)
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
             //按新的cronExpression表达式构建一个新的trigger
-            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getJobName(jobId), jobGroupName).withSchedule(scheduleBuilder).build();
+            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getJobName(jobId), groupName).withSchedule(scheduleBuilder).build();
             //获得JobDataMap，写入数据
             if (argMap != null) {
                 trigger.getJobDataMap().putAll(argMap);
@@ -93,7 +125,7 @@ public class QuartzJobManager {
     /**
      * 暂停job
      *
-     * @param jobId      任务ID
+     * @param jobId        任务ID
      * @param jobGroupName 任务所在组名称
      */
     public void pauseJob(long jobId, String jobGroupName) {
@@ -107,7 +139,7 @@ public class QuartzJobManager {
     /**
      * 恢复job
      *
-     * @param jobId      任务ID
+     * @param jobId        任务ID
      * @param jobGroupName 任务所在组名称
      */
     public void resumeJob(long jobId, String jobGroupName) {

@@ -4,6 +4,8 @@ import com.zxy.sysam_task.entity.Job;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zxy.sysam_task.utils.BaseResult;
 
+import java.util.List;
+
 /**
  * <p>
  * 定时任务表 服务类
@@ -20,7 +22,7 @@ public interface JobService extends IService<Job> {
 
     BaseResult selectJobInfos(Job job);
 
-    BaseResult pauseJob(Job job);
+    BaseResult pauseJob(List<Job> job);
 
-    BaseResult resumeJob(Job job);
+    BaseResult resumeJob(List<Job> job);
 }
