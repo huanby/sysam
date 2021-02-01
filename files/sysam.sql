@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 26/01/2021 20:26:46
+ Date: 01/02/2021 20:28:40
 */
 
 SET NAMES utf8mb4;
@@ -57,7 +57,6 @@ DROP TABLE IF EXISTS `sys_job`;
 CREATE TABLE `sys_job`  (
   `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
   `BEAN_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
-  `JOBGROUP` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务组名称',
   `METHOD_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
   `PARAMS` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
   `CRON_EXPRESSION` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'cron表达式',
@@ -66,7 +65,7 @@ CREATE TABLE `sys_job`  (
   `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`JOB_ID`) USING BTREE,
   INDEX `sys_job_create_time`(`CREATE_TIME`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -80,6 +79,7 @@ CREATE TABLE `sys_menu`  (
   `pid` int(11) NULL DEFAULT NULL COMMENT '父菜单id',
   `perms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '授权（多个用逗号分隔，如：user:list,user:add）',
   `type` int(11) NULL DEFAULT NULL COMMENT '类型',
+  `route` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由信息',
   `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
   `orderNum` int(11) NULL DEFAULT NULL COMMENT '排序',
   `enable` int(11) NULL DEFAULT 1 COMMENT '启用状态  0-未启用 1已启用',
@@ -95,22 +95,22 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 'system/user/', NULL, 0, NULL, 1, NULL, 1, 1, 0, NULL, NULL, '2020-01-09 08:45:25', '2021-01-26 20:05:20', NULL);
-INSERT INTO `sys_menu` VALUES (2, '用户管理', '/admin/user/userList', NULL, 1, 'sys:user:userList', 2, NULL, 1, 1, 0, NULL, NULL, '2020-01-10 12:18:00', '2021-01-26 20:05:25', NULL);
-INSERT INTO `sys_menu` VALUES (3, '权限管理', '/admin/role/roleList', NULL, 1, 'sys:role:roleList', 2, NULL, 2, 1, 0, NULL, NULL, '2020-01-10 12:18:14', '2021-01-26 20:05:28', NULL);
-INSERT INTO `sys_menu` VALUES (4, '浏览', '/admin/user/getUserList', NULL, 2, 'sys:user:userList', 4, 'glyphicon glyphicon-search', 1, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:04', NULL);
-INSERT INTO `sys_menu` VALUES (5, '添加', '/admin/user/userAdd', NULL, 2, 'sys:user:userAdd', 3, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:14', NULL);
-INSERT INTO `sys_menu` VALUES (6, '查看', '/admin/user/userInfo', NULL, 2, 'userInfo', 3, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-06 16:37:27', NULL);
-INSERT INTO `sys_menu` VALUES (7, '修改', '/admin/user/userEdit', NULL, 2, 'userUpdate', 3, 'glyphicon glyphicon-search', 4, 1, 0, NULL, NULL, '2020-11-10 15:19:12', '2020-11-10 20:45:37', NULL);
-INSERT INTO `sys_menu` VALUES (8, '删除', '/admin/user/userDel', NULL, 2, 'userDel', 3, 'glyphicon glyphicon-search', 5, 1, 0, NULL, NULL, '2020-11-10 15:19:38', '2020-11-10 15:19:52', NULL);
-INSERT INTO `sys_menu` VALUES (9, '浏览', '/admin/role/getRoleList', NULL, 3, 'roleList', 4, 'glyphicon glyphicon-search', 6, 1, 0, NULL, NULL, '2020-11-10 15:20:26', '2020-11-25 22:06:38', NULL);
-INSERT INTO `sys_menu` VALUES (10, '添加', '/admin/role/roleAdd', NULL, 3, 'roleAdd', 3, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2020-11-25 20:36:05', NULL);
-INSERT INTO `sys_menu` VALUES (11, '查看', '/admin/role/roleInfo', NULL, 3, 'roleInfo', 3, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-25 20:36:05', NULL);
-INSERT INTO `sys_menu` VALUES (12, '修改', '/admin/role/roleEdit', NULL, 3, 'roleUpdate', 3, 'glyphicon glyphicon-search', 4, 1, 0, NULL, NULL, '2020-11-10 15:19:12', '2020-11-25 20:56:20', NULL);
-INSERT INTO `sys_menu` VALUES (13, '删除', '/admin/role/roleDel', NULL, 3, 'roleDel', 3, 'glyphicon glyphicon-search', 5, 1, 0, NULL, NULL, '2020-11-10 15:19:38', '2020-11-25 20:36:05', NULL);
-INSERT INTO `sys_menu` VALUES (14, '任务调度', '/sys/task', NULL, 0, 'sys:task:task', 1, NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:05', '2021-01-26 20:09:30', NULL);
-INSERT INTO `sys_menu` VALUES (15, '定时任务', '/sys/task/job', NULL, 14, 'sys:task:', 2, NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:37', '2021-01-26 20:11:42', NULL);
-INSERT INTO `sys_menu` VALUES (16, '调度任务', '/sys/task/job2', NULL, 14, 'sys:task:', 2, NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:50', '2021-01-26 20:13:38', NULL);
+INSERT INTO `sys_menu` VALUES (1, '系统管理', 'system/user/', NULL, 0, NULL, 1, 'system', 'el-icon-question', 1, 1, 0, NULL, NULL, '2020-01-09 08:45:25', '2021-01-30 15:35:43', NULL);
+INSERT INTO `sys_menu` VALUES (2, '用户管理', '/admin/user/userList', NULL, 1, 'sys:user:userList', 2, 'userManage', NULL, 1, 1, 0, NULL, NULL, '2020-01-10 12:18:00', '2021-01-30 15:05:35', NULL);
+INSERT INTO `sys_menu` VALUES (3, '权限管理', '/admin/role/roleList', NULL, 1, 'sys:role:roleList', 2, 'roleManage', NULL, 2, 1, 0, NULL, NULL, '2020-01-10 12:18:14', '2021-01-30 15:05:43', NULL);
+INSERT INTO `sys_menu` VALUES (4, '浏览', '/admin/user/getUserList', NULL, 2, 'sys:user:userList', 4, NULL, 'glyphicon glyphicon-search', 1, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:04', NULL);
+INSERT INTO `sys_menu` VALUES (5, '添加', '/admin/user/userAdd', NULL, 2, 'sys:user:userAdd', 3, NULL, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:14', NULL);
+INSERT INTO `sys_menu` VALUES (6, '查看', '/admin/user/userInfo', NULL, 2, 'userInfo', 3, NULL, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-06 16:37:27', NULL);
+INSERT INTO `sys_menu` VALUES (7, '修改', '/admin/user/userEdit', NULL, 2, 'userUpdate', 3, NULL, 'glyphicon glyphicon-search', 4, 1, 0, NULL, NULL, '2020-11-10 15:19:12', '2020-11-10 20:45:37', NULL);
+INSERT INTO `sys_menu` VALUES (8, '删除', '/admin/user/userDel', NULL, 2, 'userDel', 3, NULL, 'glyphicon glyphicon-search', 5, 1, 0, NULL, NULL, '2020-11-10 15:19:38', '2020-11-10 15:19:52', NULL);
+INSERT INTO `sys_menu` VALUES (9, '浏览', '/admin/role/getRoleList', NULL, 3, 'roleList', 4, NULL, 'glyphicon glyphicon-search', 6, 1, 0, NULL, NULL, '2020-11-10 15:20:26', '2020-11-25 22:06:38', NULL);
+INSERT INTO `sys_menu` VALUES (10, '添加', '/admin/role/roleAdd', NULL, 3, 'roleAdd', 3, NULL, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2020-11-25 20:36:05', NULL);
+INSERT INTO `sys_menu` VALUES (11, '查看', '/admin/role/roleInfo', NULL, 3, 'roleInfo', 3, NULL, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-25 20:36:05', NULL);
+INSERT INTO `sys_menu` VALUES (12, '修改', '/admin/role/roleEdit', NULL, 3, 'roleUpdate', 3, NULL, 'glyphicon glyphicon-search', 4, 1, 0, NULL, NULL, '2020-11-10 15:19:12', '2020-11-25 20:56:20', NULL);
+INSERT INTO `sys_menu` VALUES (13, '删除', '/admin/role/roleDel', NULL, 3, 'roleDel', 3, NULL, 'glyphicon glyphicon-search', 5, 1, 0, NULL, NULL, '2020-11-10 15:19:38', '2020-11-25 20:36:05', NULL);
+INSERT INTO `sys_menu` VALUES (14, '任务调度', '/sys/task', NULL, 0, 'sys:task:task', 1, 'job', 'el-icon-question', NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:05', '2021-01-30 15:45:33', NULL);
+INSERT INTO `sys_menu` VALUES (15, '定时任务', '/sys/task/timedTask', NULL, 14, 'sys:task:', 2, 'timedTask', NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:37', '2021-01-30 15:06:36', NULL);
+INSERT INTO `sys_menu` VALUES (16, '调度任务', '/sys/task/taskLog', NULL, 14, 'sys:task:', 2, 'TaskLog', NULL, NULL, 1, 0, NULL, NULL, '2021-01-26 20:09:50', '2021-01-30 15:06:31', NULL);
 
 -- ----------------------------
 -- Table structure for sys_operation
