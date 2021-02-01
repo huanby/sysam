@@ -70,6 +70,8 @@ public class LoginServiceImpl implements ILoginService {
                 Map<String, Object> attributes = new HashMap<>(16);
                 //菜单URL
                 attributes.put("url", menu.getUrl());
+                //菜单路由信息
+                attributes.put("route", menu.getRoute());
                 //菜单icon
                 attributes.put("icon", menu.getIcon());
                 tree.setAttributes(attributes);

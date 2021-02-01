@@ -58,6 +58,10 @@ public class Menu extends Model<Menu> {
     @TableField("type")
     private Integer type;
 
+    @ApiModelProperty(value = "路由信息")
+    @TableField("route")
+    private String route;
+
     @ApiModelProperty(value = "菜单图标")
     @TableField("icon")
     private String icon;
