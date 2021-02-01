@@ -1,6 +1,6 @@
-package com.zxy.sysam_task.config;
+package com.zxy.sysam_task.utils;
 
-import com.zxy.sysam_task.task.ScheduleJob;
+import com.zxy.sysam_task.entity.ScheduleJob;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.*;
  * @Package: com.zxy.sysam_task.config
  * @ClassName: QuartzJobManager
  * @Author: jibl
- * @Description:
+ * @Description: 定时任务工具类
  * @Date: 2021/1/25 11:09
  * @Version: 1.0
  */
@@ -23,8 +23,6 @@ import java.util.*;
 public class QuartzJobManager {
     private static final Logger logger = LoggerFactory.getLogger(QuartzJobManager.class);
 
-    //任务名称前缀
-    private static final String JOB_NAME_PREFIX = "TASK_";
 
     //默认任务组
     private static String groupName = "DEFAULT";
@@ -44,6 +42,8 @@ public class QuartzJobManager {
         return QuartzJobManager.jobUtil;
     }
 
+    //任务名称前缀
+    private static final String JOB_NAME_PREFIX = "TASK_";
 
     /**
      * 获取任务名称JobName
@@ -96,9 +96,10 @@ public class QuartzJobManager {
 
     /**
      * 新增定时任务
+     *
      * @param job
      */
-    public void addJob(com.zxy.sysam_task.entity.Job job) {
+    public void addJob(ScheduleJob job) {
         long jobId = job.getJobId();
         String cronExpression = job.getCronExpression();
         Map<String, Object> argMap = new HashMap<>();
@@ -107,7 +108,7 @@ public class QuartzJobManager {
             // 启动调度器
             scheduler.start();
             //构建job信息
-            JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(getJobName(jobId), groupName).build();
+            JobDetail jobDetail = JobBuilder.newJob(ScheduleJobBean.class).withIdentity(getJobName(jobId), groupName).build();
             //表达式调度构建器(即任务执行的时间)
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
             //按新的cronExpression表达式构建一个新的trigger
@@ -125,12 +126,12 @@ public class QuartzJobManager {
     /**
      * 暂停job
      *
-     * @param jobId        任务ID
+     * @param jobName      任务名称
      * @param jobGroupName 任务所在组名称
      */
-    public void pauseJob(long jobId, String jobGroupName) {
+    public void pauseJob(String jobName, String jobGroupName) {
         try {
-            scheduler.pauseJob(JobKey.jobKey(getJobName(jobId), jobGroupName));
+            scheduler.pauseJob(JobKey.jobKey(jobName, jobGroupName));
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -139,12 +140,12 @@ public class QuartzJobManager {
     /**
      * 恢复job
      *
-     * @param jobId        任务ID
+     * @param jobName      任务名称
      * @param jobGroupName 任务所在组名称
      */
-    public void resumeJob(long jobId, String jobGroupName) {
+    public void resumeJob(String jobName, String jobGroupName) {
         try {
-            scheduler.resumeJob(JobKey.jobKey(getJobName(jobId), jobGroupName));
+            scheduler.resumeJob(JobKey.jobKey(jobName, jobGroupName));
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -217,14 +218,14 @@ public class QuartzJobManager {
     /**
      * job 删除
      *
-     * @param jobId        任务名称
+     * @param jobName      任务名称
      * @param jobGroupName 任务所在组名称
      */
-    public void deleteJob(long jobId, String jobGroupName) {
+    public void deleteJob(String jobName, String jobGroupName) {
         try {
-            scheduler.pauseTrigger(TriggerKey.triggerKey(getJobName(jobId), jobGroupName));
-            scheduler.unscheduleJob(TriggerKey.triggerKey(getJobName(jobId), jobGroupName));
-            scheduler.deleteJob(JobKey.jobKey(getJobName(jobId), jobGroupName));
+            scheduler.pauseTrigger(TriggerKey.triggerKey(jobName, jobGroupName));
+            scheduler.unscheduleJob(TriggerKey.triggerKey(jobName, jobGroupName));
+            scheduler.deleteJob(JobKey.jobKey(jobName, jobGroupName));
         } catch (Exception e) {
             e.printStackTrace();
         }

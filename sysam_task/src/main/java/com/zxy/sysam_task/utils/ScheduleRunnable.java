@@ -1,4 +1,4 @@
-package com.zxy.sysam_task.task;
+package com.zxy.sysam_task.utils;
 
 import com.zxy.sysam_task.utils.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  * @Package: com.zxy.sysam_task.utils
  * @ClassName: ScheduleRunnable
  * @Author: jibl
- * @Description:
+ * @Description: 执行定时任务
  * @Date: 2021/1/29 16:48
  * @Version: 1.0
  */

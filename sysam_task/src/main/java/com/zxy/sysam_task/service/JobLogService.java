@@ -2,6 +2,10 @@ package com.zxy.sysam_task.service;
 
 import com.zxy.sysam_task.entity.JobLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zxy.sysam_task.entity.ScheduleJob;
+import com.zxy.sysam_task.utils.BaseResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -9,8 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author jibl
- * @since 2021-01-26
+ * @since 2021-02-01
  */
 public interface JobLogService extends IService<JobLog> {
 
+    BaseResult selectJobLogInfos(HttpServletRequest request,JobLog jobLog);
 }
