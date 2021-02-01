@@ -59,15 +59,13 @@ public class LoginController {
      * @return
      */
     @ApiOperation(value = "用户登录", notes = "用户登录")
-    @ApiResponse(code = 400, message = "Invalid Order")
-//    @ApiImplicitParam(name = "user",value = "user",dataType = "User")
-//    @ApiResponses({ @ApiResponse(code = 400, message = "Invalid Order") })
-    @GetMapping("/login")
-    @ResponseBody
+    @ApiResponses({@ApiResponse(code = 400, message = "Invalid Order")})
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String")
     })
+    @GetMapping("/login")
+    @ResponseBody
     public ResultUtil login(String username, String password) {
         if (ObjectUtils.isEmpty(username) || ObjectUtils.isEmpty(password)) {
             return new ResultUtil(400, "请输入用户名和密码！", null);

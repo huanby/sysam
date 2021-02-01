@@ -11,6 +11,7 @@
         <result column="pid" property="pid" />
         <result column="perms" property="perms" />
         <result column="type" property="type" />
+        <result column="route" property="route" />
         <result column="icon" property="icon" />
         <result column="orderNum" property="orderNum" />
         <result column="enable" property="enable" />
@@ -24,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, menuname, url, remark, pid, perms, type, icon, orderNum, enable, isdel, creator, updateBy, createtime, updatetime, describes
+        id, menuname, url, remark, pid, perms, type, route, icon, orderNum, enable, isdel, creator, updateBy, createtime, updatetime, describes
     </sql>
 
     <!--通过菜单id查询菜单信息-->
