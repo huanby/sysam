@@ -22,14 +22,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  * </p>
  *
  * @author jibl
- * @since 2021-01-28
+ * @since 2021-02-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_job")
-@ApiModel(value="Job对象", description="定时任务表")
-public class Job extends Model<Job> {
+@TableName("sys_schedule_job")
+@ApiModel(value="ScheduleJob对象", description="定时任务表")
+public class ScheduleJob extends Model<ScheduleJob> {
 
     private static final long serialVersionUID=1L;
 

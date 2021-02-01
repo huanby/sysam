@@ -1,6 +1,6 @@
 package com.zxy.sysam_task.dao;
 
-import com.zxy.sysam_task.entity.Job;
+import com.zxy.sysam_task.entity.ScheduleJob;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author jibl
- * @since 2021-01-28
+ * @since 2021-02-01
  */
-public interface JobMapper extends BaseMapper<Job> {
+public interface ScheduleJobMapper extends BaseMapper<ScheduleJob> {
 
 }

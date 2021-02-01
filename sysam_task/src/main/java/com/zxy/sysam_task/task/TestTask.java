@@ -22,14 +22,17 @@ public class TestTask {
     public void test1() {
         log.info("我是不带参数的test1方法，正在被执行");
     }
-    public void sayhello() {
-        System.out.println("sayhello......................");
-        System.out.println("==================执行完毕===============");
+    public void test2() {
+        log.info("我是不带参数的test2方法，正在被执行");
     }
-
-    public void say(String value) {
-        System.out.println(value);
-        System.out.println("====================执行完毕===============");
+    public void test3() {
+        log.info("我是不带参数的test3方法，正在被执行");
+    }
+    public void test4(String params) {
+        log.info("我是带参数的test4方法，正在被执行，参数为：{}" , params);
+    }
+    public void test5(String params) {
+        log.info("我是带参数的test5方法，正在被执行，参数为：{}" , params);
     }
 
 }
