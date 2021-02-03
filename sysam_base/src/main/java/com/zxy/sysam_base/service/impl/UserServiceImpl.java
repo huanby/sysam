@@ -25,6 +25,12 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 
+    /**
+     * 分页获取用户列表
+     * @param userQueryWrapper
+     * @param pageUtil
+     * @return
+     */
     public PageUtilResult<User> userList(UserQueryWrapper userQueryWrapper, PageUtil pageUtil) {
         //初始化查询条件
         IPage<User> page = this.page(new Page<>(pageUtil.getCurrentPage(), pageUtil.getPageSize()), userQueryWrapper);

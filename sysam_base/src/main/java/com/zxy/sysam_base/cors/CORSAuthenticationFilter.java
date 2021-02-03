@@ -32,6 +32,15 @@ public class CORSAuthenticationFilter extends FormAuthenticationFilter {
         super();
     }
 
+    /**
+     * 有session
+     * 可以访问
+     *
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         //Always return true if the request's method is OPTIONS
@@ -44,6 +53,14 @@ public class CORSAuthenticationFilter extends FormAuthenticationFilter {
 
     }
 
+    /**
+     * 没有session从isAccessAllowed跳转到onAccessDenied
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletResponse res = (HttpServletResponse) response;

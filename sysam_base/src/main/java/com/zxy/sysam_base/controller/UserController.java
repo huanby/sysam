@@ -74,6 +74,34 @@ public class UserController {
     }
 
 
+    /**
+     * 新增用户
+     *
+     * @param user
+     * @return
+     */
+    @ApiOperation("新增用户")
+    @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public ResultUtil userAdd(User user) {
+        //通过用户ID查询用户信息
+//        User user = userService.getById(id);
+        boolean flag = userService.save(user);
+        if (flag) {
+            return ResultUtil.ok("操作成功！");
+        } else {
+            return new ResultUtil<>(500, "fail", null);
+        }
+    }
+
+
+
+
+
+
+
+
+
     @ApiOperation("更新用户")
     @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
     public boolean updateInfo() {

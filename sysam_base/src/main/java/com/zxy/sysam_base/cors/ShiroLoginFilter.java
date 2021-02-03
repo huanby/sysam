@@ -20,6 +20,9 @@ import java.io.IOException;
  * @Version: 1.0
  */
 
+/**
+ * 跨域配置
+ */
 @Component
 @ServletComponentScan
 //@WebFilter(urlPatterns = "/*",filterName = "shiroLoginFilter")
