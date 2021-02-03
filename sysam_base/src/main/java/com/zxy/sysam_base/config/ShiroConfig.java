@@ -55,21 +55,7 @@ public class ShiroConfig {
         //ModularRealmAuthorizer执行realm（自定义的Realm）从数据库查询权限数据
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
-        securityManager.setSessionManager(sessionManager());
         return securityManager;
-    }
-
-    /**
-     * session 过期时间
-     *
-     * @return
-     */
-    @Bean(name = "sessionManager")
-    public DefaultWebSessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        // 设置session过期时间3600s
-        sessionManager.setGlobalSessionTimeout(3600000L);
-        return sessionManager;
     }
 
     public CORSAuthenticationFilter corsAuthenticationFilter() {
@@ -90,6 +76,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
+//        filterChainDefinitionMap.put("/index/**", "anon");
         //authc:所有url必须通过认证才能访问，anon:所有url都可以匿名访问
         filterChainDefinitionMap.put("/**", "corsAuthenticationFilter");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
