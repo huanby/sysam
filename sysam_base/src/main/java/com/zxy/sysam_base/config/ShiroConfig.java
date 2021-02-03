@@ -1,15 +1,19 @@
 package com.zxy.sysam_base.config;
 
+import com.zxy.sysam_base.cors.CORSAuthenticationFilter;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
+import javax.servlet.Filter;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -50,7 +54,25 @@ public class ShiroConfig {
         //ModularRealmAuthorizer执行realm（自定义的Realm）从数据库查询权限数据
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
+    }
+
+    /**
+     * session 过期时间
+     *
+     * @return
+     */
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        // 设置session过期时间3600s
+        sessionManager.setGlobalSessionTimeout(3600000L);
+        return sessionManager;
+    }
+
+    public CORSAuthenticationFilter corsAuthenticationFilter() {
+        return new CORSAuthenticationFilter();
     }
 
     //Filter工厂，设置对应的过滤条件和跳转条件
@@ -58,23 +80,22 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String, String> map = new HashMap<>();
-        //登出
-        map.put("/logout", "logout");
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //对所有用户认证
-        map.put("/**", "authc");
+//        filterChainDefinitionMap.put("/**", "authc");
         //不验证路径
-        map.put("/swagger-ui.html", "anon");
-        map.put("/v2/api-docs", "anon");
-        map.put("/webjars/**", "anon");
-        map.put("/swagger-resources/**", "anon");
-        //登录
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        //首页
-        shiroFilterFactoryBean.setSuccessUrl("/index");
-        //错误页面，认证不通过跳转
-        shiroFilterFactoryBean.setUnauthorizedUrl("/error");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+        filterChainDefinitionMap.put("/v2/api-docs", "anon");
+        filterChainDefinitionMap.put("/webjars/**", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        filterChainDefinitionMap.put("/login/**", "anon");
+        //authc:所有url必须通过认证才能访问，anon:所有url都可以匿名访问
+        filterChainDefinitionMap.put("/**", "corsAuthenticationFilter");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        //自定义过滤器
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("corsAuthenticationFilter", corsAuthenticationFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
         return shiroFilterFactoryBean;
     }
 
