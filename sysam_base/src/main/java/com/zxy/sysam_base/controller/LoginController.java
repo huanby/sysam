@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,4 +140,13 @@ public class LoginController {
         map = iLoginService.index();
         return map;
     }
+
+    /**
+     * seesion 过期后跳转登录页面302
+     */
+    @GetMapping("/reLogin")
+    public void reLogin(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_FOUND);
+    }
+
 }
