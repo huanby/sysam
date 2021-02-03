@@ -6,6 +6,7 @@ package com.zxy.sysam_base.wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zxy.sysam_base.entity.User;
 import com.zxy.sysam_base.entity.UserRole;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,9 @@ public class UserQueryWrapper extends QueryWrapper<User> {
 
     public void setUsername(String username) {
         this.username = username;
+        if (StringUtils.isNotBlank(this.username)) {
+            this.like(User.USERNAME, this.username);
+        }
     }
 
     public String getPassword() {
@@ -130,6 +134,9 @@ public class UserQueryWrapper extends QueryWrapper<User> {
 
     public void setEnable(Integer enable) {
         this.enable = enable;
+        if (this.enable != null) {
+            this.eq(User.ENABLE, this.enable);
+        }
     }
 
     public List<UserRole> getUserRoles() {

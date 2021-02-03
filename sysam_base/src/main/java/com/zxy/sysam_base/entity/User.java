@@ -29,7 +29,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName(value = "sys_user",resultMap = "userMap")
+@TableName(value = "sys_user", resultMap = "userMap")
 //@ApiModel(value="SysUser对象", description="")
 @ApiModel(value = "User对象", description = "")
 public class User extends Model<User> {
@@ -108,5 +108,14 @@ public class User extends Model<User> {
     protected Serializable pkVal() {
         return this.id;
     }
+
+
+    public static final String ID = "id";
+
+    public static final String USERNAME = "username";
+
+    public static final String PASSWORD = "password";
+
+    public static final String ENABLE = "enable";
 
 }

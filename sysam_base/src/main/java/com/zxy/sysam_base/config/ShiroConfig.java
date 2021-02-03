@@ -47,6 +47,7 @@ public class ShiroConfig {
      */
     @Bean
     public SecurityManager securityManager() {
+        //DefaultWebSecurityManager
         //ModularRealmAuthorizer执行realm（自定义的Realm）从数据库查询权限数据
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
@@ -79,6 +80,11 @@ public class ShiroConfig {
     }
 
 
+    /**
+     * 匹配所有加了 Shiro 认证注解的方法
+     * @param securityManager
+     * @return
+     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();

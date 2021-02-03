@@ -1,51 +1,50 @@
 package com.zxy.sysam_common.utils;
 
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 
 /**
  * PageUtil.java
+ * <p>
+ * 分页工具类
+ * currentPage  当前页数
+ * pageSize     页面记录数
  *
- * @description 分页工具类
- * offset 当前记录数
- * limit 显示记录数
- * @since 2021-01-29
+ * @author hby
+ * @since 2021-02-02
  */
 public class PageUtil {
 
-    /**
-     * 当前所在条数
-     */
-//	@ApiModelProperty(value = "分页当前记录位置,该值必须大于等于0",example = "0")
-    @Min(value = 0, message = "当前记录数必须大于等于0")
-    @NotNull(message = "所在条数不能为空")
-    private Integer offset;
 
-    /**
-     * 总显示条数
-     */
-//	@ApiModelProperty(value = "一共显示多少条记录，该值必须大于0",example = "10")
-    @Min(value = 1, message = "显示记录数必须大于0")
-    @NotNull(message = "显示条数不能为空")
-    private Integer limit;
+    @ApiModelProperty(value = "当前页数,该值必须大于等于1", example = "1")
+    @Min(value = 0, message = "当前页数必须大于等于1")
+    @NotNull(message = "当前页数不能为空")
+    private Integer currentPage;
 
-    public Integer getOffset() {
-        return offset;
+
+    @ApiModelProperty(value = "页面记录数，该值必须大于等于0", example = "10")
+    @Min(value = 0, message = "页面记录数必须大于等于0")
+    @NotNull(message = "页面记录数不能为空")
+    private Integer pageSize;
+
+
+    public Integer getCurrentPage() {
+        return currentPage;
     }
 
-    //处理offset为当前查询页数，在mybatis-plus中使用
-    public void setOffset(Integer offset) {
-        this.offset = (offset / this.limit) + 1;
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
     }
 
-    public Integer getLimit() {
-        return limit;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
-
-
 }
