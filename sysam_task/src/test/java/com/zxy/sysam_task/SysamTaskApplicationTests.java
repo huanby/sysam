@@ -1,4 +1,4 @@
-package com.zxy.sysam_task;
+package com.sysam.sysam_task;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

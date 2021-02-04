@@ -1,0 +1,2 @@
+参考开源项目：
+https://demo.cloud.renren.io/renren-cloud/#/login

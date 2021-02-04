@@ -4,19 +4,19 @@
     <modelVersion>4.0.0</modelVersion>
     <dependencies>
         <dependency>
-            <groupId>com.zxy</groupId>
+            <groupId>com.sysam</groupId>
             <artifactId>sysam_common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
     <parent>
-        <groupId>com.zxy</groupId>
+        <groupId>com.sysam</groupId>
         <artifactId>sysam</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.zxy</groupId>
+    <groupId>com.sysam</groupId>
     <artifactId>sysam_base</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sysam_base</name>

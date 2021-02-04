@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zxy.sysam_base.dao.UserRoleMapper">
+<mapper namespace="com.sysam.sysam_base.dao.UserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="userRoleMap" type="com.zxy.sysam_base.entity.UserRole">
+    <resultMap id="userRoleMap" type="com.sysam.sysam_base.entity.UserRole">
         <id column="id" property="id"/>
         <result column="userId" property="userId"/>
         <result column="roleId" property="roleId"/>
@@ -11,7 +11,7 @@
         <result column="updatetime" property="updatetime"/>
         <result column="isdel" property="isdel"/>
         <result column="describes" property="describes"/>
-        <association property="role" select="com.zxy.sysam_base.dao.RoleMapper.getRoleById"
+        <association property="role" select="com.sysam.sysam_base.dao.RoleMapper.getRoleById"
                      column="roleId"></association>
     </resultMap>
 

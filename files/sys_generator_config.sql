@@ -39,6 +39,6 @@ CREATE TABLE `sys_generator_config`  (
 -- ----------------------------
 -- Records of sys_generator_config
 -- ----------------------------
-INSERT INTO `sys_generator_config` VALUES (1, 'Jibl', 'com.zxy', 'entity', 'mapper', 'mapper', 'service', 'service.impl', 'controller', '1', 't_');
+INSERT INTO `sys_generator_config` VALUES (1, 'Jibl', 'com.sysam', 'entity', 'mapper', 'mapper', 'service', 'service.impl', 'controller', '1', 't_');
 
 SET FOREIGN_KEY_CHECKS = 1;

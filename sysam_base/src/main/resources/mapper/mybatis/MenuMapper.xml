@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zxy.sysam_base.dao.MenuMapper">
+<mapper namespace="com.sysam.sysam_base.dao.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zxy.sysam_base.entity.Menu">
+    <resultMap id="BaseResultMap" type="com.sysam.sysam_base.entity.Menu">
         <id column="id" property="id" />
         <result column="menuname" property="menuname" />
         <result column="url" property="url" />
@@ -29,7 +29,7 @@
     </sql>
 
     <!--通过菜单id查询菜单信息-->
-    <select id="getMenuById" resultType="com.zxy.sysam_base.entity.Menu">
+    <select id="getMenuById" resultType="com.sysam.sysam_base.entity.Menu">
         SELECT * FROM sys_menu where id = #{id};
     </select>
 

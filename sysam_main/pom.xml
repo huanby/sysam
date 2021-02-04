@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.zxy</groupId>
+        <groupId>com.sysam</groupId>
         <artifactId>sysam</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.zxy</groupId>
+    <groupId>com.sysam</groupId>
     <artifactId>sysam_main</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sysam_main</name>
@@ -33,27 +33,27 @@
 
         <!--系统管理模块-->
         <dependency>
-            <groupId>com.zxy</groupId>
+            <groupId>com.sysam</groupId>
             <artifactId>sysam_base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!--定时任务模块-->
         <dependency>
-            <groupId>com.zxy</groupId>
+            <groupId>com.sysam</groupId>
             <artifactId>sysam_task</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!--公共配置模块-->
         <dependency>
-            <groupId>com.zxy</groupId>
+            <groupId>com.sysam</groupId>
             <artifactId>sysam_common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!--开发工具模块-->
         <dependency>
-            <groupId>com.zxy</groupId>
+            <groupId>com.sysam</groupId>
             <artifactId>sysam_generator</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
