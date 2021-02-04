@@ -50,6 +50,13 @@
             <artifactId>sysam_common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <!--开发工具模块-->
+        <dependency>
+            <groupId>com.zxy</groupId>
+            <artifactId>sysam_generator</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

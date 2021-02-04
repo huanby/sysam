@@ -44,8 +44,8 @@ public class GeneratorCodeConfig {
         String USERNAME = "root";
         String PASSWORD = "123456";
         String AUTHOR = "jibl";
-        //MOUDLENAME 模块名称
-        String MOUDLENAME = "sysam_task";
+        //MOUDLENAME 模块名称  sysam_task
+        String MOUDLENAME = "sysam_generator";
         //自定义模块名称
 //        String MOUDLENAME = (scanner("模块名"));
         DataSourceConfig dsc = new DataSourceConfig();
