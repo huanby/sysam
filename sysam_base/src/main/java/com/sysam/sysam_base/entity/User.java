@@ -93,7 +93,7 @@ public class User extends Model<User> {
      * 用户角色关联信息
      */
     @ApiModelProperty(value = "用户角色关联信息")
-//    @TableField(exist = false)
+    @TableField(exist = false)
     private List<UserRole> userRoles;
 
     public List<UserRole> getUserRoles() {

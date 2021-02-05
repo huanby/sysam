@@ -27,6 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 分页获取用户列表
+     *
      * @param userQueryWrapper
      * @param pageUtil
      * @return
@@ -40,6 +41,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         result.setRows(page.getRecords());
         result.setTotal(page.getTotal());
         return result;
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean userUpdate(User user) {
+        //修改用户信息
+        return this.updateById(user);
+    }
+
+
+    /**
+     * 通过用户ID删除用户信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean userDelete(Integer id) {
+        return this.removeById(id);
     }
 
 }

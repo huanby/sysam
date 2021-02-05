@@ -18,4 +18,10 @@ public interface UserService extends IService<User> {
 
     //分页获取用户列表
     PageUtilResult<User> userList(UserQueryWrapper userQueryWrapper, PageUtil pageUtil);
+
+    //修改用户信息
+    boolean userUpdate(User user);
+
+    //通过用户ID删除用户信息
+    boolean userDelete(Integer id);
 }

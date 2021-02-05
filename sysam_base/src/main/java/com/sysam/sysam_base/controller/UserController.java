@@ -15,11 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -85,7 +81,6 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ResultUtil userAdd(User user) {
         //通过用户ID查询用户信息
-//        User user = userService.getById(id);
         boolean flag = userService.save(user);
         if (flag) {
             return ResultUtil.ok("操作成功！");
@@ -95,11 +90,44 @@ public class UserController {
     }
 
 
+    /**
+     * 修改用户信息
+     *
+     * @param user
+     * @return
+     */
+    @ApiOperation("修改用户信息")
+    @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResultUtil userUpdate(@RequestParam User user) {
+        //通过用户ID修改用户信息
+        boolean flag = userService.userUpdate(user);
+        if (flag) {
+            return ResultUtil.ok("操作成功！");
+        } else {
+            return new ResultUtil<>(500, "fail", null);
+        }
+    }
 
 
-
-
-
+    /**
+     * 删除用户信息
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("删除用户信息")
+    @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public ResultUtil userDelete(@RequestParam(value = "id", required = true) Integer id) {
+        //通过用户ID删除用户信息
+        boolean flag = userService.userDelete(id);
+        if (flag) {
+            return ResultUtil.ok("操作成功！");
+        } else {
+            return new ResultUtil<>(500, "fail", null);
+        }
+    }
 
 
     @ApiOperation("更新用户")
