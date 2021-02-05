@@ -114,7 +114,7 @@ public class GeneratorHelper {
 
     private Template getTemplate(String templateName) throws Exception {
         Configuration configuration = new freemarker.template.Configuration(Configuration.VERSION_2_3_23);
-        String templatePath = GeneratorHelper.class.getResource("/generator/templates/").getPath();
+        String templatePath = GeneratorHelper.class.getResource("/generator/templates").getPath();
         File file = new File(templatePath);
         if (!file.exists()) {
             templatePath = System.getProperties().getProperty("java.io.tmpdir");

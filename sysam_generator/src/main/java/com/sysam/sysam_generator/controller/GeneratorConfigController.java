@@ -1,9 +1,21 @@
 package com.sysam.sysam_generator.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sysam.sysam_generator.entity.GeneratorConfig;
+import com.sysam.sysam_generator.service.GeneratorConfigService;
+import com.sysam.sysam_generator.utils.BaseResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -13,9 +25,25 @@ import org.springframework.web.bind.annotation.RestController;
  * @author jibl
  * @since 2021-02-04
  */
+@Api(tags = "代码生成参数配置")
 @RestController
 @RequestMapping("/generatorConfig")
 public class GeneratorConfigController {
 
+    @Autowired
+    GeneratorConfigService generatorConfigService;
+
+    @ApiOperation("代码生成参数配置")
+    @GetMapping("/list")
+    public GeneratorConfig list() {
+        QueryWrapper<GeneratorConfig> queryWrapper = new QueryWrapper<>();
+        return generatorConfigService.getOne(queryWrapper);
+    }
+
+    @ApiOperation("保存代码生成参数配置")
+    @GetMapping("/save")
+    public boolean save(GeneratorConfig generatorConfig) {
+        return generatorConfigService.saveOrUpdate(generatorConfig);
+    }
 }
 

@@ -1,19 +1,17 @@
 package ${basePackage}.${serviceImplPackage};
 
-import cc.mrbird.febs.common.entity.QueryRequest;
 import ${basePackage}.${entityPackage}.${className};
 import ${basePackage}.${mapperPackage}.${className}Mapper;
 import ${basePackage}.${servicePackage}.I${className}Service;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.annotation.Propagation;
-import lombok.RequiredArgsConstructor;
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+ort com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -27,40 +25,36 @@ import java.util.List;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements I${className}Service {
 
-    private final ${className}Mapper ${className?uncap_first}Mapper;
+    @Autowired
+    ${className}Mapper ${className?uncap_first}Mapper;
 
     @Override
-    public IPage<${className}> find${className}s(QueryRequest request, ${className} ${className?uncap_first}) {
-        LambdaQueryWrapper<${className}> queryWrapper = new LambdaQueryWrapper<>();
+    public IPage<${className}> ${className?uncap_first}PageList(${className} ${className?uncap_first}, HttpServletRequest request) {
+        int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        IPage<${className}> jobLogPage = new Page<>(currentPage, pageSize);
+        QueryWrapper<${className}> queryWrapper = new QueryWrapper<${className}>();
         // TODO 设置查询条件
-        Page<${className}> page = new Page<>(request.getPageNum(), request.getPageSize());
-        return this.page(page, queryWrapper);
+        jobLogPage = ${className?uncap_first}Mapper.selectPage(jobLogPage, queryWrapper);
+        return jobLogPage;
     }
 
     @Override
-    public List<${className}> find${className}s(${className} ${className?uncap_first}) {
-	    LambdaQueryWrapper<${className}> queryWrapper = new LambdaQueryWrapper<>();
-		// TODO 设置查询条件
-		return this.baseMapper.selectList(queryWrapper);
+    public int insert(${className} ${className?uncap_first}) {
+        return ${className?uncap_first}Mapper.insert(${className?uncap_first});
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void create${className}(${className} ${className?uncap_first}) {
-        this.save(${className?uncap_first});
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update${className}(${className} ${className?uncap_first}) {
-        this.saveOrUpdate(${className?uncap_first});
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete${className}(${className} ${className?uncap_first}) {
+    public int delete(${className} ${className?uncap_first}) {
         LambdaQueryWrapper<${className}> wrapper = new LambdaQueryWrapper<>();
-	    // TODO 设置删除条件
-	    this.remove(wrapper);
-	}
+        // TODO 设置删除条件
+        return ${className?uncap_first}Mapper.deleteById(wrapper);
+    }
+
+    @Override
+    public int updateInfo(${className} ${className?uncap_first}) {
+        QueryWrapper<${className}> queryWrapper = new QueryWrapper<${className}>();
+        // TODO 设置修改条件
+        return ${className?uncap_first}Mapper.update(${className?uncap_first},queryWrapper);
+    }
 }
