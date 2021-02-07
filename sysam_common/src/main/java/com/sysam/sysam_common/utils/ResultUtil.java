@@ -53,6 +53,14 @@ public class ResultUtil<T> {
         return resultUtil;
     }
 
+    public static ResultUtil error(String message) {
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.status = ERROR_CODE;
+        resultUtil.message = message;
+        return resultUtil;
+    }
+
+
 
     public Integer getStatus() {
         return status;

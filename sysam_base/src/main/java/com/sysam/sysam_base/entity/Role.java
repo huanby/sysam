@@ -79,6 +79,7 @@ public class Role extends Model<Role> {
      * 角色菜单关联信息
      */
     @ApiModelProperty(value = "角色菜单关联信息")
+    @TableField(exist = false)
     private List<RoleMenu> roleMenus;
 
 
@@ -86,5 +87,14 @@ public class Role extends Model<Role> {
     protected Serializable pkVal() {
         return this.id;
     }
+
+
+    public static final String ID = "id";
+
+    public static final String ROLESIGN = "rolesign";
+
+    public static final String ROLENAME = "rolename";
+
+    public static final String ENABLE = "enable";
 
 }

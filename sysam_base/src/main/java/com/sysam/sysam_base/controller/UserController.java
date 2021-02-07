@@ -1,8 +1,6 @@
 package com.sysam.sysam_base.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.sysam.sysam_base.entity.User;
 import com.sysam.sysam_base.service.UserService;
 import com.sysam.sysam_base.wrapper.UserQueryWrapper;
@@ -17,10 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * <p>
+ * 用户管理Controller
  * 前端控制器
  * </p>
  *
@@ -80,7 +77,7 @@ public class UserController {
     @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ResultUtil userAdd(User user) {
-        //通过用户ID查询用户信息
+        //新增用户
         boolean flag = userService.save(user);
         if (flag) {
             return ResultUtil.ok("操作成功！");
@@ -127,59 +124,6 @@ public class UserController {
         } else {
             return new ResultUtil<>(500, "fail", null);
         }
-    }
-
-
-    @ApiOperation("更新用户")
-    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
-    public boolean updateInfo() {
-        //修改值
-        User user = new User();
-        user.setEnable(1);
-        //修改条件
-        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-        userUpdateWrapper.eq("username", "test");
-        boolean result = userService.update(user, userUpdateWrapper);
-        return result;
-    }
-
-    @ApiOperation("新增用户")
-    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
-    public boolean saveInfo(@RequestBody User user) {
-        boolean result = userService.save(user);
-        return result;
-    }
-
-    @ApiOperation("新增or更新用户")
-    @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
-    public boolean saveOrUpdate() {
-        //修改值
-        User user = new User();
-        user.setEnable(2);
-        //修改条件
-        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-        userUpdateWrapper.eq("username", "test");
-        boolean result = userService.saveOrUpdate(user, userUpdateWrapper);
-        return result;
-    }
-
-
-    @ApiOperation("根据id查询用户的接口")
-    @ApiImplicitParam(name = "id", value = "用户id", defaultValue = "1", required = true)
-    @RequestMapping(value = "/selelctInfo", method = RequestMethod.POST)
-    public User selelctInfo(Integer id) {
-        User user = userService.getById(id);
-        System.out.println(user.getUserRoles());
-        System.out.println(user);
-        return user;
-    }
-
-    @ApiOperation("根据姓名查询用户的接口")
-    @RequestMapping(value = "/selelctInfos", method = RequestMethod.POST)
-    public Map<String, Object> selelctInfos(String username) {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        Map<String, Object> map = userService.getMap(wrapper.eq("username", username));
-        return map;
     }
 
 

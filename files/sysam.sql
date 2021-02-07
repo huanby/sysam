@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MYSQL5.7_LOCALHOST
+ Source Server         : sysam_LOCALHOST
  Source Server Type    : MySQL
  Source Server Version : 50728
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 01/02/2021 20:28:40
+ Date: 07/02/2021 16:48:57
 */
 
 SET NAMES utf8mb4;
@@ -40,6 +40,30 @@ CREATE TABLE `sys_dict`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for sys_generator_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_generator_config`;
+CREATE TABLE `sys_generator_config`  (
+  `id` int(11) NOT NULL COMMENT '主键',
+  `author` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '作者',
+  `base_package` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '基础包名',
+  `entity_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'entity文件存放路径',
+  `mapper_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'mapper文件存放路径',
+  `mapper_xml_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'mapper xml文件存放路径',
+  `service_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'servcie文件存放路径',
+  `service_impl_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'serviceImpl文件存放路径',
+  `controller_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'controller文件存放路径',
+  `is_trim` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否去除前缀 1是 0否',
+  `trim_value` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '前缀内容',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_generator_config
+-- ----------------------------
+INSERT INTO `sys_generator_config` VALUES (1, 'Jibl', 'com.zxy', 'entity', 'mapper', 'mapper', 'service', 'service.impl', 'controller', '1', 't_');
+
+-- ----------------------------
 -- Table structure for sys_group
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_group`;
@@ -65,7 +89,25 @@ CREATE TABLE `sys_job`  (
   `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`JOB_ID`) USING BTREE,
   INDEX `sys_job_create_time`(`CREATE_TIME`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_job_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_job_log`;
+CREATE TABLE `sys_job_log`  (
+  `LOG_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志id',
+  `JOB_ID` bigint(20) NOT NULL COMMENT '任务id',
+  `BEAN_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
+  `METHOD_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
+  `PARAMS` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
+  `STATUS` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务状态    0：成功    1：失败',
+  `ERROR` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '失败信息',
+  `TIMES` decimal(11, 0) NULL DEFAULT NULL COMMENT '耗时(单位：毫秒)',
+  `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`LOG_ID`) USING BTREE,
+  INDEX `job_log_create_time`(`CREATE_TIME`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 2669 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -97,7 +139,7 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, '系统管理', 'system/user/', NULL, 0, NULL, 1, 'system', 'el-icon-question', 1, 1, 0, NULL, NULL, '2020-01-09 08:45:25', '2021-01-30 15:35:43', NULL);
 INSERT INTO `sys_menu` VALUES (2, '用户管理', '/admin/user/userList', NULL, 1, 'sys:user:userList', 2, 'userManage', NULL, 1, 1, 0, NULL, NULL, '2020-01-10 12:18:00', '2021-01-30 15:05:35', NULL);
-INSERT INTO `sys_menu` VALUES (3, '权限管理', '/admin/role/roleList', NULL, 1, 'sys:role:roleList', 2, 'roleManage', NULL, 2, 1, 0, NULL, NULL, '2020-01-10 12:18:14', '2021-01-30 15:05:43', NULL);
+INSERT INTO `sys_menu` VALUES (3, '角色管理', '/admin/role/roleList', NULL, 1, 'sys:role:roleList', 2, 'roleManage', NULL, 2, 1, 0, NULL, NULL, '2020-01-10 12:18:14', '2021-02-07 14:54:13', NULL);
 INSERT INTO `sys_menu` VALUES (4, '浏览', '/admin/user/getUserList', NULL, 2, 'sys:user:userList', 4, NULL, 'glyphicon glyphicon-search', 1, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:04', NULL);
 INSERT INTO `sys_menu` VALUES (5, '添加', '/admin/user/userAdd', NULL, 2, 'sys:user:userAdd', 3, NULL, 'glyphicon glyphicon-search', 2, 1, 0, NULL, NULL, '2020-06-16 15:05:19', '2021-01-23 11:22:14', NULL);
 INSERT INTO `sys_menu` VALUES (6, '查看', '/admin/user/userInfo', NULL, 2, 'userInfo', 3, NULL, 'glyphicon glyphicon-search', 3, 1, 0, NULL, NULL, '2020-11-06 16:36:05', '2020-11-06 16:37:27', NULL);
@@ -180,20 +222,21 @@ CREATE TABLE `sys_role`  (
   `rolesign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色标识',
   `rolename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `enable` int(11) NULL DEFAULT NULL COMMENT '启用状态  0-未启用 1已启用',
+  `enable` int(11) NOT NULL DEFAULT 1 COMMENT '启用状态  0-未启用 1已启用',
   `creator` int(11) NULL DEFAULT NULL COMMENT '创建者',
   `createtime` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `updatetime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `isdel` int(11) NULL DEFAULT 0 COMMENT '是否删除  0-未删除 1已删除',
+  `isdel` int(11) NOT NULL DEFAULT 0 COMMENT '是否删除  0-未删除 1已删除',
   `describes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'ROLE_ADMIN', '管理员', '管理员', NULL, NULL, '2020-01-09 08:41:38', '2020-11-15 20:11:58', NULL, NULL);
-INSERT INTO `sys_role` VALUES (2, 'ROLE_USER', '用户', '用户', NULL, NULL, '2020-01-09 08:41:38', '2020-11-15 20:12:01', NULL, NULL);
+INSERT INTO `sys_role` VALUES (1, 'ROLE_ADMIN', '管理员', '管理员', 1, NULL, '2020-01-09 08:41:38', '2021-02-07 15:19:44', 0, NULL);
+INSERT INTO `sys_role` VALUES (2, 'ROLE_USER', '用户', '用户', 1, NULL, '2020-01-09 08:41:38', '2021-02-07 15:19:44', 0, NULL);
+INSERT INTO `sys_role` VALUES (3, 'a1', 'a1', 'aaa1', 0, NULL, '2021-02-07 16:04:02', '2021-02-07 16:04:02', 0, NULL);
 
 -- ----------------------------
 -- Table structure for sys_role_group
@@ -261,6 +304,23 @@ CREATE TABLE `sys_role_permission`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for sys_schedule_job
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_schedule_job`;
+CREATE TABLE `sys_schedule_job`  (
+  `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
+  `BEAN_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
+  `METHOD_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
+  `PARAMS` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
+  `CRON_EXPRESSION` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'cron表达式',
+  `STATUS` int(2) NULL DEFAULT NULL COMMENT '任务状态  0：正常  1：暂停',
+  `REMARK` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`JOB_ID`) USING BTREE,
+  INDEX `sys_job_create_time`(`CREATE_TIME`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
@@ -279,16 +339,20 @@ CREATE TABLE `sys_user`  (
   `isdel` int(11) NULL DEFAULT 0 COMMENT '是否删除',
   `describes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'admin', '123456', '管理员', 1, 20, '15645678956', '123@qq.com', 1, '2020-01-09 08:38:40', '2021-01-23 11:20:36', 0, NULL);
 INSERT INTO `sys_user` VALUES (2, 'admin3', '$2a$10$l.2kTmKD7/wU6HdKba/LDeCob1Hc7RpREkSCBXb/CkkBMod1LyeyS', '管理员3', 1, NULL, NULL, NULL, 1, '2020-02-08 11:23:02', '2020-02-08 11:23:14', 0, NULL);
-INSERT INTO `sys_user` VALUES (3, 'user1', '123456', 'user1', 1, 20, '12345678911', '', 1, '2020-12-04 21:43:10', '2021-01-23 11:20:38', 0, NULL);
+INSERT INTO `sys_user` VALUES (3, 'user1', '123456', 'user1', 1, 20, '12345678911', '123@qq.com', 0, '2020-12-04 21:43:10', '2021-01-23 11:20:38', 0, NULL);
 INSERT INTO `sys_user` VALUES (4, 'user2', '123456', 'user2', 1, 20, '12345678911', '123@qq.com', 1, '2020-12-06 14:57:11', '2021-01-23 11:20:39', 0, NULL);
 INSERT INTO `sys_user` VALUES (5, 'user3', '123456', 'user3', 1, 20, '12345678911', '123@qq.com', 1, '2020-12-06 15:30:00', '2021-01-20 20:51:05', 0, NULL);
+INSERT INTO `sys_user` VALUES (6, 'user4', NULL, 'user4', 1, 20, '1', '1', 1, '2021-02-03 20:06:38', '2021-02-03 20:06:38', 0, NULL);
+INSERT INTO `sys_user` VALUES (10, 'user6', NULL, 'user6', 1, 20, '20', '20', 1, '2021-02-03 20:10:24', '2021-02-03 20:10:24', 0, NULL);
+INSERT INTO `sys_user` VALUES (12, 'user7', NULL, 'user7', 1, 20, '20', '20', 1, '2021-02-03 20:12:10', '2021-02-03 20:12:10', 0, NULL);
+INSERT INTO `sys_user` VALUES (13, 'user7', NULL, 'user7', 1, NULL, '', '', 1, '2021-02-07 16:04:22', '2021-02-07 16:04:22', 0, NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_group
