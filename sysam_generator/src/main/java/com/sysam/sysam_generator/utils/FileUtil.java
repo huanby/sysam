@@ -26,7 +26,7 @@ import java.util.zip.ZipOutputStream;
 public abstract class FileUtil {
 
     private static final int BUFFER = 1024 * 8;
-    private static String[] VALID_FILE_TYPE = {"xlsx", "zip"};
+    private static String[] VALID_FILE_TYPE = {"xls","xlsx", "zip"};
 
     /**
      * 压缩文件或目录

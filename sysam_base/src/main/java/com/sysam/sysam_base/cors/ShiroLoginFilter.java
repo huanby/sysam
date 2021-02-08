@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 已废弃
  * 修复shiro重定向引起的Response for preflight is invalid (redirect)的网络报错(axios post携带参数)
  * @ProjectName: sysam
  * @Package: com.sysam.sysam_base.cors
@@ -23,9 +24,8 @@ import java.io.IOException;
 /**
  * 跨域配置
  */
-@Component
-@ServletComponentScan
-//@WebFilter(urlPatterns = "/*",filterName = "shiroLoginFilter")
+//@Component
+//@ServletComponentScan
 public class ShiroLoginFilter  implements Filter {
 
     private FilterConfig config = null;
@@ -43,8 +43,8 @@ public class ShiroLoginFilter  implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         // 允许哪些Origin发起跨域请求,nginx下正常
         // response.setHeader( "Access-Control-Allow-Origin", config.getInitParameter( "AccessControlAllowOrigin" ) );
-        response.setHeader("Access-Control-Allow-Origin","http://localhost:9999");
-//        response.setHeader( "Access-Control-Allow-Origin", "*" );
+//        response.setHeader("Access-Control-Allow-Origin","http://localhost:9999");
+        response.setHeader( "Access-Control-Allow-Origin", "*" );
         // 允许请求的方法
         response.setHeader( "Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT" );
         // 多少秒内，不需要再发送预检验请求，可以缓存该结果
