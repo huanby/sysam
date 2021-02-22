@@ -5,11 +5,12 @@ package com.sysam.sysam_base.cors;
  * @Package: com.sysam.sysam_base.cors
  * @ClassName: CrossFilter
  * @Author: jibl
- * @Description:
+ * @Description: 前后台跨域配置
  * @Date: 2021/2/8 10:15
  * @Version: 1.0
  */
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Slf4j
 @Component
 public class CrossFilter implements Filter {
 
@@ -32,9 +34,10 @@ public class CrossFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println(allowOrigins+" CrossFilter init...................");
+        log.info("CrossFilter init...................");
+        log.info("前台端口配置：" + allowOrigins);
         String[] allowOriginArr = allowOrigins.split(",");
-        for(int i=0;i<allowOriginArr.length;i++){
+        for (int i = 0; i < allowOriginArr.length; i++) {
             allowOrigin.add(allowOriginArr[i]);
         }
     }
@@ -42,26 +45,26 @@ public class CrossFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        String origin = ((HttpServletRequest)servletRequest).getHeader("Origin");
+        String origin = ((HttpServletRequest) servletRequest).getHeader("Origin");
         //设置允许的跨域请求源
-        if(allowOrigin.contains(origin)){
-            httpServletResponse.setHeader("Access-Control-Allow-Origin",origin);
-        }else{
-            httpServletResponse.setHeader("Access-Control-Allow-Origin","*");
+        if (allowOrigin.contains(origin)) {
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
+        } else {
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
         }
         // 设置允许的跨域请求头
-        httpServletResponse.setHeader("Access-Control-Allow-Headers","Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, userId, token, x-requested-with, XMLHttpRequest, Accept");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, userId, token, x-requested-with, XMLHttpRequest, Accept");
         // 设置允许的跨域请求方法
-        httpServletResponse.setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT，OPTIONS, DELETE");
         //  设置允许跨域请求的最长时间，这里设置了30天，就为了尽量延长允许时间，
         //  时间过短会导致经常在请求前先发送一个Option请求，用于获取服务端允许哪些跨域访问类型，导致资源浪费。
-        httpServletResponse.setHeader("Access-Control-Max-Age","2592000");
+        httpServletResponse.setHeader("Access-Control-Max-Age", "2592000");
         // 设置允许携带证书信息，包括Session和Cookie等等
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         //  设置请求类型为json请求
         httpServletResponse.setContentType("application/json;charset=utf-8");
 
-        filterChain.doFilter(servletRequest,servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

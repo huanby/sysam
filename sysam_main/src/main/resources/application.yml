@@ -2,6 +2,16 @@ server:
   port: 8089
   servlet:
     context-path: /
+# 日志级别及存放位置
+logging:
+  level:
+    root: info
+    com.sysam.sysam_base.dao: debug
+    com.sysam.sysam_common.dao: debug
+    com.sysam.sysam_task.dao: debug
+    com.sysam.sysam_generator.dao: debug
+  file:
+    path:  ./logs
 # 数据源：
 spring:
   datasource:
@@ -64,7 +74,7 @@ mybatis-plus:
     #自动映射model(pojo)
     auto-mapping-behavior: full
     #开启日志打印
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     #xml扫描
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   global-config:
