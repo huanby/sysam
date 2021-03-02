@@ -85,7 +85,7 @@ mybatis-plus:
       # 删除后
       logic-delete-value: 0
 #跨域前台端口
-allowOrigins: http://localhost:9999,http://127.0.0.1:9999,
+allowOrigins: http://localhost:9999,http://127.0.0.1:9999,http://8.140.170.160:9999
 
 
 

@@ -5,6 +5,7 @@ import com.sysam.sysam_base.entity.RoleMenu;
 import com.sysam.sysam_base.entity.User;
 import com.sysam.sysam_base.entity.UserRole;
 import com.sysam.sysam_base.service.ILoginService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -100,6 +101,7 @@ public class CustomRealm extends AuthorizingRealm {
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
+            SecurityUtils.getSubject().getSession().setTimeout(60000);
             return simpleAuthenticationInfo;
         }
     }
