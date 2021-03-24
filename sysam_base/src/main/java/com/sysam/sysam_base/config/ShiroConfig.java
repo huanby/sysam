@@ -1,17 +1,25 @@
 package com.sysam.sysam_base.config;
 
 import com.sysam.sysam_base.cors.CORSAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,7 +32,19 @@ import java.util.Map;
  * @since 2021-01-20
  */
 @Configuration
+//@RequiredArgsConstructor
 public class ShiroConfig {
+
+
+    //自定义Redis配置
+//    @Autowired
+//    private CustomRedisProperties customRedisProperties;
+
+
+    @Resource
+    private RedisProperties redisProperties;
+
+
 
     @Bean
     @ConditionalOnMissingBean
@@ -55,6 +75,8 @@ public class ShiroConfig {
         //ModularRealmAuthorizer执行realm（自定义的Realm）从数据库查询权限数据
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
+        //将自定义的会话管理器注册到安全管理器中
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
@@ -100,5 +122,43 @@ public class ShiroConfig {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+
+    /*Shiro中session会话管理配置*/
+
+    /**
+     * 1.redis的控制器，配置 redis 缓存
+     */
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(redisProperties.getHost() + ":" + redisProperties.getPort());
+        if (StringUtils.isNotBlank(redisProperties.getPassword())) {
+            redisManager.setPassword(redisProperties.getPassword());
+        }
+        redisManager.setTimeout(redisManager.getTimeout());
+        redisManager.setDatabase(redisProperties.getDatabase());
+        return redisManager;
+    }
+
+
+    /**
+     * 2.配置sessionDao
+     */
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO sessionDAO = new RedisSessionDAO();
+        sessionDAO.setRedisManager(redisManager());
+        return sessionDAO;
+    }
+
+    /**
+     * 3.配置话管理器
+     */
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionDAO(redisSessionDAO());
+        return sessionManager;
+    }
+    /*Shiro中session会话管理配置*/
+
+
 }
 
