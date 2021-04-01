@@ -67,9 +67,9 @@ public class LoginController {
     })
     @GetMapping("/login")
     @ResponseBody
-    public ResultUtil login(String username, String password) {
+    public ResultUtil<Object> login(String username, String password) {
         if (ObjectUtils.isEmpty(username) || ObjectUtils.isEmpty(password)) {
-            return new ResultUtil(400, "请输入用户名和密码！", null);
+            return new ResultUtil<>(400, "请输入用户名和密码！", null);
         }
         //用户认证信息
         Subject subject = SecurityUtils.getSubject();

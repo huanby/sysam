@@ -13,7 +13,8 @@
         <groupId>com.sysam</groupId>
         <artifactId>sysam</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+<!--        <relativePath>../pom.xml</relativePath>-->
+<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
     <groupId>com.sysam</groupId>
     <artifactId>sysam_base</artifactId>
