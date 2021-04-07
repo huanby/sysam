@@ -1,7 +1,9 @@
 package com.sysam.sysam_base.controller;
 
 
+import com.sysam.sysam_base.entity.Role;
 import com.sysam.sysam_base.entity.User;
+import com.sysam.sysam_base.service.RoleService;
 import com.sysam.sysam_base.service.UserService;
 import com.sysam.sysam_base.wrapper.UserQueryWrapper;
 import com.sysam.sysam_common.utils.PageUtil;
@@ -15,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户管理Controller
@@ -25,12 +29,17 @@ import org.springframework.web.bind.annotation.*;
  * @since 2021-01-19
  */
 @Api(tags = "用户管理")
+@CrossOrigin
 @RestController
 @RequestMapping("/sys/user")
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RoleService roleService;
+
 
 
     /**
@@ -68,6 +77,22 @@ public class UserController {
 
 
     /**
+     * 跳转新增用户
+     * @return
+     */
+    @ApiOperation("新增用户获取角色")
+//    @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public ResultUtil<?> userAdd() {
+        //获取角色列表
+        List<Role> roleList = roleService.list();
+//        System.out.println(roleList);
+        return ResultUtil.ok("success",roleList);
+    }
+
+
+
+    /**
      * 新增用户
      *
      * @param user
@@ -75,8 +100,8 @@ public class UserController {
      */
     @ApiOperation("新增用户")
     @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ResultUtil userAdd(User user) {
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public ResultUtil userSave(@RequestBody User user) {
         //新增用户
         boolean flag = userService.save(user);
         if (flag) {
@@ -96,7 +121,7 @@ public class UserController {
     @ApiOperation("修改用户信息")
     @ApiImplicitParam(name = "user", value = "用户实体类", defaultValue = "", required = true)
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultUtil userUpdate(@RequestParam User user) {
+    public ResultUtil userUpdate(@RequestBody User user) {
         //通过用户ID修改用户信息
         boolean flag = userService.userUpdate(user);
         if (flag) {

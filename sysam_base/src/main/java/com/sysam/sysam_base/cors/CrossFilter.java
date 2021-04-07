@@ -53,9 +53,9 @@ public class CrossFilter implements Filter {
             httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
         }
         // 设置允许的跨域请求头
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, userId, token, x-requested-with, XMLHttpRequest, Accept");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, userId, token, x-requested-with, XMLHttpRequest, Accept,Authorization");
         // 设置允许的跨域请求方法
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT，OPTIONS, DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT,OPTIONS, DELETE");
         //  设置允许跨域请求的最长时间，这里设置了30天，就为了尽量延长允许时间，
         //  时间过短会导致经常在请求前先发送一个Option请求，用于获取服务端允许哪些跨域访问类型，导致资源浪费。
         httpServletResponse.setHeader("Access-Control-Max-Age", "2592000");

@@ -47,14 +47,21 @@ public class ResultUtil<T> {
     }
 
 
-    public static ResultUtil ok(String message) {
-        ResultUtil resultUtil = new ResultUtil();
+    public static<T> ResultUtil<T> ok(String message) {
+        ResultUtil<T> resultUtil = new ResultUtil<>();
         resultUtil.message = message;
         return resultUtil;
     }
 
-    public static ResultUtil error(String message) {
-        ResultUtil resultUtil = new ResultUtil();
+    public static<T> ResultUtil<T> ok(String message,T response) {
+        ResultUtil<T> resultUtil = new ResultUtil<>();
+        resultUtil.message = message;
+        resultUtil.response = response;
+        return resultUtil;
+    }
+
+    public static<T>  ResultUtil<T>  error(String message) {
+        ResultUtil<T>  resultUtil = new ResultUtil<>();
         resultUtil.status = ERROR_CODE;
         resultUtil.message = message;
         return resultUtil;
