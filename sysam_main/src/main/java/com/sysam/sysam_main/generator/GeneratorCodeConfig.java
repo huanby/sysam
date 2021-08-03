@@ -6,10 +6,13 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
+import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -102,16 +105,16 @@ public class GeneratorCodeConfig {
         pc.setServiceImpl("service.impl");
         pc.setEntity("entity");
         pc.setMapper("dao");
+        mpg.setPackageInfo(pc);
 
-
-        InjectionConfig cfg = new InjectionConfig() {
+        /*InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-rb");
                 this.setMap(map);
             }
-        };
+        };*/
         //xml生成路径
         List<FileOutConfig> focList = new ArrayList<>();
         focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
@@ -120,12 +123,8 @@ public class GeneratorCodeConfig {
                 return projectPath + "/" + MOUDLENAME + "/src/main/resources/" + "mapper/mybatis/" + tableInfo.getEntityName() + "Mapper.xml";
             }
         });
+        InjectionConfig cfg = injectionConfig();
         cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
-
-        mpg.setPackageInfo(pc);
-        cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
 
         // 关闭默认 xml 生成，调整生成 至 根目录
         TemplateConfig tc = new TemplateConfig();
@@ -139,5 +138,54 @@ public class GeneratorCodeConfig {
         mpg.setTemplate(tc);
         // 执行生成
         mpg.execute();
+    }
+    /**
+     * 自定义配置
+     *
+     * @param fileTypeEnum 文件类型
+     * @return InjectionConfig
+     */
+    private static InjectionConfig injectionConfig(FileType... fileTypeEnum) {
+        InjectionConfig injectionConfig = new InjectionConfig() {
+            @Override
+            public void initMap() {
+                // to do nothing
+            }
+        };
+        injectionConfig.setFileCreate(new IFileCreate() {
+            @Override
+            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
+                if (fileTypeEnum.length == 0) {
+                    //无参情况下，先检查.java file是否存在：
+                    //如果不存在，创建；如果存在，判断是否是entity.java：如果是，创建（覆盖）；否则，不创建。
+                    checkDir(filePath);
+                    File file = new File(filePath);
+                    boolean exist = file.exists();
+                    if (exist) {
+                        if (FileType.ENTITY == fileType) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else {
+                    //有参情况下，只创建传入的.java，无论存在都直接覆盖。
+                    boolean isType = false;
+                    for (int i = 0; i < fileTypeEnum.length; i++) {
+                        if (fileTypeEnum[i] == fileType) {
+                            isType = true;
+                            break;
+                        }
+                    }
+                    if (!isType) {
+                        return false;
+                    }
+                    checkDir(filePath);
+                    return true;
+                }
+            }
+        });
+        return injectionConfig;
     }
 }
