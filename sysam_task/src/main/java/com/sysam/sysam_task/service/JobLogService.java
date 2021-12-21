@@ -1,21 +1,29 @@
 package com.sysam.sysam_task.service;
 
-import com.sysam.sysam_task.entity.JobLog;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sysam.sysam_task.entity.ScheduleJob;
+import com.sysam.sysam_task.entity.JobLog;
 import com.sysam.sysam_task.utils.BaseResult;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * <p>
- * 调度日志表 服务类
- * </p>
+ * The interface Job log service.
  *
  * @author jibl
- * @since 2021-02-01
+ * @date 2021 -12-21 20:47:49
  */
 public interface JobLogService extends IService<JobLog> {
 
+
+    /**
+     * Select job log infos base result.
+     *
+     * @param request the request
+     * @param jobLog  the job log
+     * @return the base result
+     * @author jibl
+     * @date 2021 -12-21 20:47:49
+     */
     BaseResult selectJobLogInfos(HttpServletRequest request,JobLog jobLog);
 }

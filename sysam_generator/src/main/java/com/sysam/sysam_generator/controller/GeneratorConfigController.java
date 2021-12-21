@@ -4,18 +4,12 @@ package com.sysam.sysam_generator.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sysam.sysam_generator.entity.GeneratorConfig;
 import com.sysam.sysam_generator.service.GeneratorConfigService;
-import com.sysam.sysam_generator.utils.BaseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -33,7 +27,7 @@ public class GeneratorConfigController {
     @Autowired
     GeneratorConfigService generatorConfigService;
 
-    @ApiOperation("代码生成参数配置")
+    @ApiOperation(value = "代码生成参数配置",httpMethod = "get")
     @GetMapping("/list")
     public GeneratorConfig list() {
         QueryWrapper<GeneratorConfig> queryWrapper = new QueryWrapper<>();

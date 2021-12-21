@@ -3,14 +3,13 @@ package com.sysam.sysam_task.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sysam.sysam_task.entity.JobLog;
-import com.sysam.sysam_task.utils.QuartzJobManager;
-import com.sysam.sysam_task.entity.ScheduleJob;
-import com.sysam.sysam_task.dao.ScheduleJobMapper;
-import com.sysam.sysam_task.service.ScheduleJobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sysam.sysam_task.dao.ScheduleJobMapper;
+import com.sysam.sysam_task.entity.ScheduleJob;
+import com.sysam.sysam_task.service.ScheduleJobService;
 import com.sysam.sysam_task.utils.BaseResult;
 import com.sysam.sysam_task.utils.JobOperateEnum;
+import com.sysam.sysam_task.utils.QuartzJobManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,16 +27,24 @@ import java.util.Map;
  * </p>
  *
  * @author jibl
- * @since 2021-02-01
+ * @date 2021 -12-21 20:49:21
+ * @since 2021 -02-01
  */
 @Service
+
 public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, ScheduleJob> implements ScheduleJobService {
     //默认任务组
     private static String groupName = "DEFAULT";
 
+    /**
+     * The Quartz job manager.
+     */
     @Autowired
     QuartzJobManager quartzJobManager;
 
+    /**
+     * The Job mapper.
+     */
     @Autowired
     ScheduleJobMapper jobMapper;
 

@@ -3,18 +3,16 @@ package com.sysam.sysam_task.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sysam.sysam_task.entity.JobLog;
-import com.sysam.sysam_task.dao.JobLogMapper;
-import com.sysam.sysam_task.entity.ScheduleJob;
-import com.sysam.sysam_task.service.JobLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sysam.sysam_task.dao.JobLogMapper;
+import com.sysam.sysam_task.entity.JobLog;
+import com.sysam.sysam_task.service.JobLogService;
 import com.sysam.sysam_task.utils.BaseResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <p>
@@ -22,11 +20,15 @@ import java.util.List;
  * </p>
  *
  * @author jibl
- * @since 2021-02-01
+ * @date 2021 -12-21 20:48:14
+ * @since 2021 -02-01
  */
 @Service
 public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> implements JobLogService {
 
+    /**
+     * The Job log mapper.
+     */
     @Autowired
     JobLogMapper jobLogMapper;
 
