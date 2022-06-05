@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sysam.sysam_base.entity.*;
 import com.sysam.sysam_base.service.ILoginService;
 import com.sysam.sysam_base.service.UserService;
+import com.sysam.sysam_base.utils.LoginUserUtil;
 import com.sysam.sysam_common.utils.BuildTree;
 import com.sysam.sysam_common.utils.Tree;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,10 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Map<String, Object> index() {
         Map<String, Object> map = new HashMap<>();
-        User user = (User) httpSession.getAttribute("user");
+        // 通过 session 获取用户
+//        User user = (User) httpSession.getAttribute("user");
+        // 使用 JWT 后，通过 shiro 获取用户
+        User user = LoginUserUtil.getLoginUser();
         List<Tree<Menu>> trees = new ArrayList<Tree<Menu>>();
         //返回菜单列表的Tree结构
         //可以修改成使用jdk8新特性转换

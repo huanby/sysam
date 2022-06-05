@@ -22,8 +22,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  * ShiroConfig.java
- * Shiro配置类
+ * Shiro 配置类
  * Shiro 从 Realm 获取安全数据（如用户、角色、权限）
+ * 前后端支持跨域 session
  *
  * @author hby
  * @since 2021-01-20
@@ -53,14 +54,15 @@ public class CustomRealm extends AuthorizingRealm {
         //查询用户名称
         User user = iLoginService.getUserByName(name);
 
-        //添加角色和权限
+        //授权信息  添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         for (UserRole userRole : user.getUserRoles()) {
+            //获取角色
             Role role = userRole.getRole();
-
             //添加角色标识信息
 //            simpleAuthorizationInfo.addRole(role.getRoleName());
             simpleAuthorizationInfo.addRole(role.getRolesign());
+
             //List转Set
 //            Set<String> perms = role.getRoleMenus().stream().map(roleMenu -> roleMenu.getMenu().getUrl()).collect(Collectors.toSet());
 //            simpleAuthorizationInfo.addRoles(perms);
@@ -77,7 +79,7 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     /**
-     * 认证 -
+     * 认证
      *
      * @MethodName doGetAuthenticationInfo
      * @Description 认证配置类
@@ -90,10 +92,10 @@ public class CustomRealm extends AuthorizingRealm {
         if (ObjectUtils.isEmpty(authenticationToken.getPrincipal())) {
             return null;
         }
-        //获取用户信息
+        //获取登录用户用户信息
         String name = authenticationToken.getPrincipal().toString();
         User user = iLoginService.getUserByName(name);
-        session.setAttribute("user",user);
+        session.setAttribute("user", user);
         System.out.println(session);
         if (user == null) {
             //这里返回后会报出对应异常

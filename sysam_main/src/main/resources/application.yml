@@ -1,5 +1,6 @@
 server:
   port: 8089
+  ip: 127.0.0.1
   servlet:
     context-path: /
 # 日志级别及存放位置
@@ -11,9 +12,16 @@ logging:
     com.sysam.sysam_task.dao: debug
     com.sysam.sysam_generator.dao: debug
   file:
-    path:  ./logs
-# 数据源：
+    path: ../logs
+  #    配置文件路径
+  config: classpath:logconfig/logback-spring.xml
+
 spring:
+  application:
+    name: sysam_main
+  #  profiles:
+  #    active: base
+  # 数据源：
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -60,18 +68,18 @@ spring:
         url-pattern: /druid/*
         reset-enable: true
         #设置监控页面的登录名和密码
-#        login-username: admin
-#        login-password: admin
-#        allow: ""
+  #        login-username: admin
+  #        login-password: admin
+  #        allow: ""
 
   redis:
-#    Redis 数据库索引（默认为0）
+    #    Redis 数据库索引（默认为0）
     database: 0
-#    Redis 服务器地址
+    #    Redis 服务器地址
     host: 127.0.0.1
-#    Redis 服务器端口
+    #    Redis 服务器端口
     port: 6379
-#    Redis 服务器连接密码
+    #    Redis 服务器连接密码
     password:
     lettuce:
       pool:
@@ -96,7 +104,7 @@ mybatis-plus:
     #自动映射model(pojo)
     auto-mapping-behavior: full
     #开启日志打印
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     #xml扫描
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   global-config:
@@ -109,10 +117,16 @@ mybatis-plus:
 #跨域前台端口
 allowOrigins: http://localhost:9999,http://127.0.0.1:9999,http://8.140.170.160:9999
 
+# Nacos 配置
+#nacos:
+#  config:
+#    server-addr: 127.0.0.1:8848
+#    namespace: fb6c4410-471a-4621-8c85-c61821f6b21b
+#  discovery:
+#    server-addr: 127.0.0.1:8848
 
 #自定义配置
 #custom-redis-config:
-
 
 
 

@@ -1,13 +1,23 @@
 package com.sysam.sysam_base.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.sysam.sysam_base.config.JwtConstants;
+import com.sysam.sysam_base.config.JwtToken;
 import com.sysam.sysam_base.entity.*;
 import com.sysam.sysam_base.service.ILoginService;
 import com.sysam.sysam_base.service.MenuService;
+import com.sysam.sysam_base.utils.JwtUtil;
+import com.sysam.sysam_common.constans.CommonConstans;
+import com.sysam.sysam_common.constans.LogConstants;
 import com.sysam.sysam_common.utils.BuildTree;
+import com.sysam.sysam_common.utils.RedisUtil;
 import com.sysam.sysam_common.utils.ResultUtil;
 import com.sysam.sysam_common.utils.Tree;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -39,6 +49,7 @@ import java.util.Map;
 @Api(value = "", tags = {"用户登录管理"})
 @Controller
 @CrossOrigin
+@Slf4j
 public class LoginController {
 
 
@@ -51,6 +62,8 @@ public class LoginController {
     @Autowired
     private ILoginService iLoginService;
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 用户登录
@@ -71,12 +84,37 @@ public class LoginController {
         if (ObjectUtils.isEmpty(username) || ObjectUtils.isEmpty(password)) {
             return new ResultUtil<>(400, "请输入用户名和密码！", null);
         }
-        //用户认证信息
+        //  获取用户
+        User user = iLoginService.getUserByName(username);
+
+        //情况1：根据用户信息查询，该用户不存在
+        if (user == null) {
+            log.info("用户登录失败，用户不存在！");
+            return ResultUtil.error("该用户不存在，请注册");
+        }
+
+        //情况2：根据用户信息查询，该用户是否启用
+        if (CommonConstans.USER_NOTENABLE.equals(user.getEnable())) {
+            log.info("用户登录失败，用户名:" + user.getUsername() + "未启用!");
+            return ResultUtil.error("该用户未启用");
+        }
+
+        //3：登录成功 返回 token
+        ResultUtil result = ResultUtil.ok("login success");
+        //将 token 信息存入 result
+        loginResult(user, result);
+        return result;
+
+
+
+
+
+
+/*        //用户认证信息
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                username,
-                password
-        );
+        //用户认证 token
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
+//        JwtToken jwtToken = new JwtToken(username);
         try {
             //进行验证，这里可以捕获异常，然后返回对应信息
             subject.login(usernamePasswordToken);
@@ -96,13 +134,38 @@ public class LoginController {
 //            return "没有权限";
             return new ResultUtil(403, "没有权限！", null);
 
-        }
-        String sessionId = httpSession.getId();
-        System.out.println(sessionId);
+        }*/
+//        String sessionId = httpSession.getId();
+//        System.out.println(sessionId);
 //        return "login success";
-        return new ResultUtil(200, "login success", null);
+//        return new ResultUtil(200, "login success", null);
 
     }
+
+
+    /**
+     * 登录返回 token 信息处理
+     *
+     * @param sysUser
+     * @param result
+     * @return
+     */
+    private ResultUtil<Object> loginResult(User sysUser, ResultUtil<Object> result) {
+        String syspassword = sysUser.getPassword();
+        String username = sysUser.getUsername();
+        // 生成token
+        String token = JwtUtil.sign(username, syspassword);
+        // 设置 token 缓存有效时间
+        redisUtil.set(JwtConstants.PREFIX_USER_TOKEN + token, token);
+        redisUtil.expire(JwtConstants.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME * 2 / 1000);
+        // 返回 token
+        JSONObject obj = new JSONObject();
+        obj.put("token", token);
+        obj.put("userInfo", sysUser);
+        result.setResponse(obj);
+        return result;
+    }
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout() {
@@ -132,10 +195,17 @@ public class LoginController {
     @ApiOperation("访问首页")
 //    @RequiresRoles("ROLE_ADMIN")
 //    @RequiresPermissions("sys:user:userList")
-    @PostMapping("/index")
+    @PostMapping("/index1")
     @ResponseBody
-    public Map<String, Object> index() {
+    public Map<String, Object> index(@RequestParam("token") String token) {
         Map<String, Object> map = new HashMap<>();
+        /*if (StringUtils.isEmpty(token)) {
+            map.put("message","TOKEN不允许为空!");
+            return map;
+        }*/
+        log.info(" ------ 通过令牌获取用户拥有的访问菜单 ---- TOKEN ------ " + token);
+        String username = JwtUtil.getUsername(token);
+        log.info(username);
         //获取访问首页展示的用户及菜单信息
         map = iLoginService.index();
         return map;

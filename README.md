@@ -54,7 +54,7 @@ swagger api-docs地址：http://localhost:8089/v2/api-docs
 
 
 ## Maven模块：
-- sysam_base 基础模块 - 用户管理
+- sysam_base 基础模块 - 用户管理、权限管理、JWT 前后端分离支持
 - sysam_main 主模块
 
 
