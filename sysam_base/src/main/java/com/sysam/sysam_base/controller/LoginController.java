@@ -1,6 +1,7 @@
 package com.sysam.sysam_base.controller;
 
 
+import com.sysam.sysam_base.cors.CORSAuthenticationFilter;
 import com.sysam.sysam_base.entity.*;
 import com.sysam.sysam_base.service.ILoginService;
 import com.sysam.sysam_base.service.MenuService;
@@ -16,6 +17,8 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -41,6 +44,7 @@ import java.util.Map;
 @CrossOrigin
 public class LoginController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private MenuService menuService;
@@ -98,8 +102,9 @@ public class LoginController {
 
         }
         String sessionId = httpSession.getId();
-        System.out.println(sessionId);
+        System.out.println("sessionId: " + sessionId);
 //        return "login success";
+        logger.info("---登录成功 --- sessionId: " + sessionId);
         return new ResultUtil(200, "login success", null);
 
     }

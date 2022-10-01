@@ -27,7 +27,7 @@ public class GeneratorConfigController {
     @Autowired
     GeneratorConfigService generatorConfigService;
 
-    @ApiOperation(value = "代码生成参数配置",httpMethod = "get")
+    @ApiOperation(value = "代码生成参数配置",httpMethod = "GET")
     @GetMapping("/list")
     public GeneratorConfig list() {
         QueryWrapper<GeneratorConfig> queryWrapper = new QueryWrapper<>();

@@ -99,9 +99,11 @@ public class CustomRealm extends AuthorizingRealm {
             //这里返回后会报出对应异常
             return null;
         } else {
-            //这里验证authenticationToken和simpleAuthenticationInfo的信息
+            //认证通过
+            //这里验证 authenticationToken 和 simpleAuthenticationInfo 的信息
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
-            SecurityUtils.getSubject().getSession().setTimeout(60000);
+            // 设置超时时间
+            SecurityUtils.getSubject().getSession().setTimeout(30 * 60 * 1000);
             return simpleAuthenticationInfo;
         }
     }
